@@ -24,8 +24,6 @@ import javax.security.auth.login.LoginException;
 
 public class Main {
 
-    public static JDABuilder builder;
-
     public static void main(String[] Args){
         System.out.println("[SchlaubiBot] Starting bot...");
         JDABuilder builder = new JDABuilder(AccountType.BOT);

@@ -3,10 +3,8 @@ package commands;
 import core.permissionHandler;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import sun.nio.cs.US_ASCII;
 import util.STATIC;
 import util.embedSender;
 
@@ -45,10 +43,6 @@ public class commandVote implements Command, Serializable {
 
     }
 
-    private static void message(String content){
-        EmbedBuilder eb = new EmbedBuilder().setDescription(content);
-        channel.sendMessage(eb.build()).queue();
-    }
 
     private static void message(String content, Color color){
         EmbedBuilder eb = new EmbedBuilder().setDescription(content).setColor(color);
@@ -64,7 +58,7 @@ public class commandVote implements Command, Serializable {
     private static void privateMessage(String content, Color color, MessageReceivedEvent event){
         User author = event.getAuthor();
         EmbedBuilder eb = new EmbedBuilder().setDescription(content).setColor(color);
-        PrivateChannel privch = (PrivateChannel)author.openPrivateChannel().complete();
+        PrivateChannel privch = author.openPrivateChannel().complete();
         privch.sendTyping().queue();
         privch.sendMessage(eb.build()).queue();
 

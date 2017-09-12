@@ -25,7 +25,7 @@ public class commandlmgtfy implements Command {
         User auhtor = event.getAuthor();
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
-        PrivateChannel privch = (PrivateChannel) auhtor.openPrivateChannel().complete();
+        PrivateChannel privch = auhtor.openPrivateChannel().complete();
         channel.sendTyping().queue();
         message.delete().queue();
 

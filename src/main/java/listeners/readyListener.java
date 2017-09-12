@@ -1,13 +1,10 @@
 package listeners;
 
 import net.dv8tion.jda.core.entities.Guild;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 public class readyListener extends ListenerAdapter {
 

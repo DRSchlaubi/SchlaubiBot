@@ -2,7 +2,6 @@ package commands;
 
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
 import util.embedSender;
@@ -22,11 +21,9 @@ public class commandKYS implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
-        User user = event.getAuthor();
         MessageChannel channel = event.getChannel();
         final Message message = event.getMessage();
         channel.sendTyping().queue();
-        String msg = message.getContent();
         message.delete().queue();
 
         if(args.length != 0) {

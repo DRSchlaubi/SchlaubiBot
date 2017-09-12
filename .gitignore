@@ -96,3 +96,14 @@ cwallet.sso.lck
 /src/main/java/util/SECRETS.java
 /SERVER_SETTINGS/
 /.idea/
+/target/
+SchlaubiBot.iml
+dependency-reduced-pom.xml
+pom.xml
+src/test/
+target/generated-sources/
+target/maven-archiver/
+target/maven-status/
+target/start.bat
+values/
+/values/

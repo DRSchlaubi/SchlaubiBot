@@ -1,15 +1,13 @@
 package commands;
 
 import core.permissionHandler;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
+
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
+
 
 import util.STATIC;
 import util.embedSender;
@@ -36,8 +34,6 @@ public class commandClear implements Command {
         User author = event.getAuthor();
         final Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
-        Guild guild = event.getGuild();
-        Member member = guild.getMember(author);
 
         channel.sendTyping().queue();
         message.delete().queue();

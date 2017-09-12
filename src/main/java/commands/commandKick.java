@@ -1,6 +1,5 @@
 package commands;
 
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.GuildController;
@@ -8,8 +7,6 @@ import net.dv8tion.jda.core.managers.GuildController;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import core.permissionHandler;
 import util.STATIC;
@@ -27,7 +24,6 @@ public class commandKick implements Command {
         final Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        Member member = guild.getMember(author);
         GuildController guildcon = new GuildController(event.getGuild());
 
         channel.sendTyping().queue();

@@ -32,7 +32,7 @@ public class commandShort implements Command {
 
         if(args.length > 0){
             try {
-                PrivateChannel privch = (PrivateChannel) author.openPrivateChannel().complete();
+                PrivateChannel privch = author.openPrivateChannel().complete();
                 Url bitlink = as(STATIC.BITLYUSERNAME, SECRETS.bitlytoken).call(shorten(args[0]));
                 embedSender.sendEmbed(":white_check_mark: Successfully created shortlink " + bitlink.getShortUrl(), channel, Color.green);
                 privch.sendTyping().queue();
@@ -52,6 +52,8 @@ public class commandShort implements Command {
         System.out.println("[INFO] Command '" + STATIC.prefix + "short was executed by" + event.getAuthor().getName());
 
     }
+
+    
 
     @Override
     public String help() {

@@ -1,15 +1,12 @@
 package commands;
 
 import core.permissionHandler;
-import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.GuildController;
 
 import java.awt.*;
 import java.util.List;
-import java.util.Timer;
-import java.util.TimerTask;
 
 import util.STATIC;
 import util.embedSender;
@@ -26,7 +23,6 @@ public class commandBan implements Command {
         final Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        Member member = guild.getMember(author);
         GuildController guildcon = new GuildController(event.getGuild());
         Member selfmember = guild.getSelfMember();
         

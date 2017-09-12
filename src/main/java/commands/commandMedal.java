@@ -3,7 +3,6 @@ package commands;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
 
@@ -22,11 +21,9 @@ public class commandMedal implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
-        User user = event.getAuthor();
         MessageChannel channel = event.getChannel();
         final Message message = event.getMessage();
         channel.sendTyping().queue();
-        String msg = message.getContent();
 
         if(!(args.length < 2)){
             message.delete().queue();

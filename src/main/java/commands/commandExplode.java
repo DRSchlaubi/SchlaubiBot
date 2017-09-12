@@ -1,8 +1,6 @@
 package commands;
 
 import core.permissionHandler;
-import net.dv8tion.jda.core.EmbedBuilder;
-import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
@@ -21,8 +19,6 @@ public class commandExplode implements Command {
     @Override
     public void action(final String[] args, final MessageReceivedEvent event) {
         User author = event.getAuthor();
-        Guild guild = event.getGuild();
-        Member member = guild.getMember(author);
         final MessageChannel channel = event.getChannel();
         final Message message = event.getMessage();
         channel.sendTyping().queue();

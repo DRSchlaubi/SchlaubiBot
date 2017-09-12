@@ -2,7 +2,6 @@ package commands;
 
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import util.STATIC;
 import util.embedSender;
@@ -22,10 +21,8 @@ public class commandRIP implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
-        User author = event.getAuthor();
         MessageChannel channel = event.getChannel();
         final Message message = event.getMessage();
-        String msg = message.getContent();
 
         channel.sendTyping().queue();
 

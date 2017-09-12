@@ -17,10 +17,10 @@ public class commandVersion implements Command {
     @Override
     public void action(String[] args, final MessageReceivedEvent event) {
         User author = event.getAuthor();
-        PrivateChannel privch = (PrivateChannel)author.openPrivateChannel().complete();
+        PrivateChannel privch = author.openPrivateChannel().complete();
         event.getChannel().sendTyping().queue();
         privch.sendTyping().queue();
-        privch.sendMessage("``` Schlaubibot Version" + STATIC.VERSION + " by Schlaubi```").queue();
+        privch.sendMessage("``` Schlaubibot Version" + STATIC.VERSION + " by Schlaubi``` Github: https://github.com/DRSchlaubi/SchlaubiBot/").queue();
         new Timer().schedule(new TimerTask() {
             @Override
             public void run() {

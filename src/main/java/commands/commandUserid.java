@@ -23,7 +23,7 @@ public class commandUserid implements Command {
         User author = event.getAuthor();
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
-        PrivateChannel privch = (PrivateChannel)author.openPrivateChannel().complete();
+        PrivateChannel privch = author.openPrivateChannel().complete();
         channel.sendTyping().queue();
         privch.sendTyping().queue();
         message.delete().queue();

@@ -10,7 +10,6 @@ import java.util.Arrays;
 public class permissionHandler {
 
     public static Boolean check(MessageReceivedEvent event){
-        User a = event.getAuthor();
         for(Role r : event.getGuild().getMember(event.getAuthor()).getRoles()){
             if(Arrays.stream(STATIC.PERMS).parallel().anyMatch(r.getName()::contains))
                 return false;
