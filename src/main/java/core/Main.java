@@ -70,6 +70,7 @@ public class Main {
        commandHandler.commands.put("userid", new commandUserid());
        commandHandler.commands.put("servers", new commandServers());
        commandHandler.commands.put("joinmessages", new commandJoinmessages());
+       commandHandler.commands.put("kms", new commandKMS());
     }
 
 }

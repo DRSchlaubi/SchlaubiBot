@@ -135,7 +135,6 @@ public class commandVote implements Command, Serializable {
         } catch (Exception e){
            message(":warning: You entered an wrong answer!", Color.red);
            return;
-
         }
 
         if(poll.votes.containsKey(event.getAuthor().getId())){

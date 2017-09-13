@@ -32,12 +32,12 @@ public class commandRIP implements Command {
         if(!(args.length < 2)) {
 
             for (int i = 1; i < args.length; i++) {
-                line += " " + args[i];
+                line = args[i] + " ";
             }
 
             try {
                 message.delete().queue();
-                InputStream image = new URL("http://www.tombstonebuilder.com/generate.php?top1=R.I.P.&top2=&top3=" + args[0].replace(" ", "%20") + "&top4=" + line.replace(" ", "%20") + "&sp=").openStream();
+                InputStream image = new URL("http://www.tombstonebuilder.com/generate.php?top1=R.I.P.&top2=&top3=" + args[0].replace(" ", "%20").replace("@", "") + "&top4=" + line.replace(" ", "%20") + "&sp=").openStream();
                 channel.sendFile(image, "rip.png", null).queue();
 
                 new Timer().schedule(new TimerTask() {
