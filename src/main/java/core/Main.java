@@ -71,6 +71,8 @@ public class Main {
        commandHandler.commands.put("servers", new commandServers());
        commandHandler.commands.put("joinmessages", new commandJoinmessages());
        commandHandler.commands.put("kms", new commandKMS());
+       commandHandler.commands.put("mute", new commandMute());
+       commandHandler.commands.put("unmute", new commandUnmute());
     }
 
 }

@@ -29,6 +29,7 @@ public class commandKick implements Command {
         channel.sendTyping().queue();
         message.delete().queue();
 
+
         if(permissionHandler.check(event)){
             if(permissionHandler.check(event)){
 
@@ -53,6 +54,7 @@ public class commandKick implements Command {
                 embedSender.sendEmbed("Usage: `kick <@User>`", channel, Color.red);
             }
         }
+
 
 
 

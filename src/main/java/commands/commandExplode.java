@@ -100,7 +100,6 @@ public class commandExplode implements Command {
                     }, 1000);
                 }
             },1000);
-
         }
 
     }
