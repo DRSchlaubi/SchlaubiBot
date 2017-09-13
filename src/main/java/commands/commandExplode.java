@@ -48,7 +48,7 @@ public class commandExplode implements Command {
                                             new Timer().schedule(new TimerTask() {
                                                 @Override
                                                 public void run() {
-                                                    mymsg.editMessage("Message `" + args[0] + "` will explode in `1` secconds").complete();
+                                                    mymsg.editMessage("Message `" + args[0] + "` will explode in `1` seccond").complete(); //second als Einzahl, sind ja net mehr geworden XD
                                                     new Timer().schedule(new TimerTask() {
                                                         @Override
                                                         public void run() {
@@ -84,7 +84,7 @@ public class commandExplode implements Command {
                                     new Timer().schedule(new TimerTask() {
                                         @Override
                                         public void run() {
-                                            mymsg.editMessage("This message will explode in `1` secconds").complete();
+                                            mymsg.editMessage("This message will explode in `1` seccond").complete(); //siehe oben
                                             new Timer().schedule(new TimerTask() {
                                                 @Override
                                                 public void run() {

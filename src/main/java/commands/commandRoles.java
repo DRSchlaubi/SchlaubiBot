@@ -26,8 +26,8 @@ public class commandRoles implements Command {
 
         List<Role> roles = guild.getRoles();
 
-        embedSender.sendEmbed("__**Currently Server Roles: **__\n" + roles.toString(), channel, Color.CYAN);
-        embedSender.sendPermanentEmbed("__**Currently Server Roles: **__\n" + roles.toString(), privch, Color.CYAN);
+        embedSender.sendEmbed("__**Current Server Roles: **__\n" + roles.toString(), channel, Color.CYAN);
+        embedSender.sendPermanentEmbed("__**Current Server Roles: **__\n" + roles.toString(), privch, Color.CYAN);
 
 
 

@@ -37,8 +37,8 @@ public class commandlmgtfy implements Command {
             String url = "http://lmgtfy.com/?iie=1&q=" + query.replace( " ", "%20");
             Url bitlink = as(STATIC.BITLYUSERNAME, SECRETS.bitlytoken).call(shorten(url));
 
-            embedSender.sendEmbed("Link created pleas send the following link to the person how needs help " + bitlink.getShortUrl(), channel, Color.green);
-            embedSender.sendPermanentEmbed("Link created pleas send the following link to the person how needs help " + bitlink.getShortUrl(), privch, Color.green);
+            embedSender.sendEmbed("Link created pleas send the following link to the person which needs help " + bitlink.getShortUrl(), channel, Color.green);
+            embedSender.sendPermanentEmbed("Link created pleas send the following link to the person which needs help " + bitlink.getShortUrl(), privch, Color.green);
 
 
         } else {
