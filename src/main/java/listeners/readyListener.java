@@ -19,7 +19,7 @@ public class readyListener extends ListenerAdapter {
 
         System.out.println(out);
 
-        System.out.println("[SchlauubiBot] Loading Polls ...");
+        System.out.println("[SchlaubiBot] Loading Polls ...");
 
 
         commands.commandVote.loadPolls(event.getJDA());
