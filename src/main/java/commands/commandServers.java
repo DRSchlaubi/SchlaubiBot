@@ -20,6 +20,7 @@ public class commandServers implements Command {
         Message message = event.getMessage();
         PrivateChannel prich = author.openPrivateChannel().complete();
         channel.sendTyping().queue();
+        message.delete().queue();
 
         String out = "\n This bot is running on the following servers: \n";
 

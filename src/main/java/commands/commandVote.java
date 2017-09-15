@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 import util.STATIC;
 import util.embedSender;
 
@@ -27,12 +28,14 @@ public class commandVote implements Command, Serializable {
         private String creator;
         private String heading;
         private List<String> answers;
+        private String pollmsg;
         private HashMap<String, Integer> votes;
 
-        private Poll(Member creator, String heading, List<String> answers) {
+        private Poll(Member creator, String heading, List<String> answers, String pollmsg) {
             this.creator = creator.getUser().getId();
             this.heading = heading;
             this.answers = answers;
+            this.pollmsg = pollmsg;
             this.votes = new HashMap<>();
         }
 
@@ -106,10 +109,13 @@ public class commandVote implements Command, Serializable {
             List<String> answers = new ArrayList<>(content.subList(1, content.size()));
 
 
-            Poll poll = new Poll(event.getMember(), heading, answers);
+            Message pollmessage = channel.sendMessage("Generationg Poll ...").complete();
+            String pollmsg = pollmessage.getId();
+
+            Poll poll = new Poll(event.getMember(), heading, answers, pollmsg);
             polls.put(event.getGuild(), poll);
 
-            channel.sendMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
+            pollmessage.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
     }
 
 
@@ -146,6 +152,9 @@ public class commandVote implements Command, Serializable {
         polls.replace(event.getGuild(), poll);
         event.getMessage().delete().queue();
         privateMessage("You have succesfully voted for option `" + args[1] + "`", new Color(0x3AD70E), event);
+        Message pollmsg =  channel.getMessageById(String.valueOf(poll.pollmsg)).complete();
+        pollmsg.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
+
 
 
 
@@ -187,6 +196,13 @@ public class commandVote implements Command, Serializable {
         polls.remove(event.getGuild());
         channel.sendMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
         message(":white_check_mark: Poll was closed by" + event.getAuthor().getAsMention(), new Color(0x3AD70E));
+        Message pollmsg = channel.getMessageById(String.valueOf(poll.pollmsg)).complete();
+        try {
+            pollmsg.delete().queue();
+        } catch (ErrorResponseException e){
+            //This is an empty Catch Block
+        }
+
 
     }
 
@@ -282,7 +298,7 @@ public class commandVote implements Command, Serializable {
 
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
-        System.out.println("[INFO] Command '-vote' was executed by " + event.getAuthor().getName());
+        System.out.println("[INFO] Command '" + STATIC.prefix + "vote' was executed by " + event.getAuthor().getName());
 
     }
 
@@ -290,10 +306,10 @@ public class commandVote implements Command, Serializable {
     public String help() {
         return
                 "USAGE: \n" +
-                        "`  -vote create <Title>|<Option1>|<Option2>|...  `  -  create a vote\n" +
-                        "`  -vote vote <index of Option>  `  -  vote for a possibility\n" +
-                        "`  -vote stats  `  -  get stats of a current vote\n" +
-                        "`  -vote close  `  -  close a current vote"
+                        "`  " + STATIC.prefix + "vote create <Title>|<Option1>|<Option2>|...  `  -  create a vote\n" +
+                        "`  " + STATIC.prefix + "vote vote <index of Option>  `  -  vote for a possibility\n" +
+                        "`  " + STATIC.prefix + "vote stats  `  -  get stats of a current vote\n" +
+                        "`  " + STATIC.prefix + "vote close  `  -  close a current vote"
                 ;
     }
 }

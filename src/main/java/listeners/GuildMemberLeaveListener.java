@@ -17,7 +17,7 @@ public class GuildMemberLeaveListener extends ListenerAdapter {
         if(!(file.exists())) {
             TextChannel channel = guild.getDefaultChannel();
             channel.sendTyping().queue();
-            channel.sendMessage("God bye **" + e.getUser().getName() + "**! We had a nice time with you!").queue();
+            channel.sendMessage("Good bye **" + e.getUser().getName() + "**! We had a nice time with you!").queue();
         }
     }
 }
