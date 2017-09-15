@@ -95,7 +95,6 @@ public class commandVote implements Command, Serializable {
         Message message = event.getMessage();
         User author = event.getAuthor();
         if(permissionHandler.check(event)){
-            message.delete().queue();
 
             if(permissionHandler.check(event)){
                 embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
@@ -110,13 +109,18 @@ public class commandVote implements Command, Serializable {
             List<String> answers = new ArrayList<>(content.subList(1, content.size()));
 
 
-            Message pollmessage = channel.sendMessage("Generationg Poll ...").complete();
+            Message pollmessage = channel.sendMessage(new EmbedBuilder().setDescription("Creating poll...").setColor(Color.cyan).build()).complete();
             String pollmsg = pollmessage.getId();
 
             Poll poll = new Poll(event.getMember(), heading, answers, pollmsg);
             polls.put(event.getGuild(), poll);
 
-            pollmessage.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    pollmessage.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
+                }
+            }, 4000);
     }
 
 
@@ -151,7 +155,6 @@ public class commandVote implements Command, Serializable {
 
         poll.votes.put(event.getAuthor().getId(), vote);
         polls.replace(event.getGuild(), poll);
-        event.getMessage().delete().queue();
         privateMessage("You have succesfully voted for option `" + args[1] + "`", new Color(0x3AD70E), event);
         Message pollmsg =  channel.getMessageById(String.valueOf(poll.pollmsg)).complete();
         pollmsg.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
@@ -185,7 +188,6 @@ public class commandVote implements Command, Serializable {
         Poll poll = polls.get(event.getGuild());
 
         if(permissionHandler.check(event)){
-            message.delete().queue();
 
             if(permissionHandler.check(event)){
 

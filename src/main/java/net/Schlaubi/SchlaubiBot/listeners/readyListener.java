@@ -3,6 +3,7 @@ package net.Schlaubi.SchlaubiBot.listeners;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.events.ReadyEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
+import net.Schlaubi.SchlaubiBot.commands.*;
 
 
 
