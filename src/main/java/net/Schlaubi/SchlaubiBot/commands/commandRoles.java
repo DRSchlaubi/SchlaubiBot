@@ -25,9 +25,13 @@ public class commandRoles implements Command {
         Guild guild = event.getGuild();
 
         List<Role> roles = guild.getRoles();
+        String rolelout = "";
+        for(Role role : roles){
+            rolelout += role.getName() + "(" + role.getId() + ") \n";
+        }
 
-        embedSender.sendEmbed("__**Current Server Roles: **__\n" + roles.toString(), channel, Color.CYAN);
-        embedSender.sendPermanentEmbed("__**Current Server Roles: **__\n" + roles.toString(), privch, Color.CYAN);
+        embedSender.sendEmbed("__**Current Server Roles: **__\n" + rolelout, channel, Color.CYAN);
+        embedSender.sendPermanentEmbed("__**Current Server Roles: **__\n" + rolelout, privch, Color.CYAN);
 
 
 
