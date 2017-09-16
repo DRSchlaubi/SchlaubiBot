@@ -8,4 +8,4 @@ dependency-reduced-pom.xml
 pom.xml
 src/test/
 values/
-/src/main/java/net/Schlaubi/SchlaubiBot/util/SECRETS.java
+/src/main/java/net/schlaubi/schlaubibot/util/SECRETS.java
