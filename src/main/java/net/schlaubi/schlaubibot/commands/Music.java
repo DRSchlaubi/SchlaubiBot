@@ -382,8 +382,8 @@ public class Music implements Command {
                 break;
             case "disconnect":
             case "quit":
-               if (isIdle(guild)){
-                   embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+               if (!guild.getSelfMember().getVoiceState().inVoiceChannel()){
+                   embedSender.sendEmbed("I am not connected to a voice channel", channel, Color.red);
                    return;
                }
                guild.getAudioManager().closeAudioConnection();
