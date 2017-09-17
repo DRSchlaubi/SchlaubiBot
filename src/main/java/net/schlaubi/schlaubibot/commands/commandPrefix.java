@@ -1,22 +1,19 @@
 package net.schlaubi.schlaubibot.commands;
 
-
-import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.managers.GuildController;
-import net.schlaubi.schlaubibot.core.permissionHandler;
+import net.dv8tion.jda.core.entities.Guild;
+import net.dv8tion.jda.core.entities.Message;
+import net.dv8tion.jda.core.entities.MessageChannel;
+import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.schlaubi.schlaubibot.core.permissionHandler;
+import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
 import java.io.*;
 import java.util.Properties;
 
-public class commandJoinmessages implements Command{
-
-
-
-
-
+public class commandPrefix implements Command {
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
         return false;
@@ -24,12 +21,12 @@ public class commandJoinmessages implements Command{
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
+        User author = event.getAuthor();
+        Message message = event.getMessage();
+        MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
         File file = new File("SERVER_SETTINGS/" + guild.getId() + "/settings.properties");
         File path = new File("SERVER_SETTINGS/" + guild.getId() + "/");
-        User author = event.getAuthor();
-        MessageChannel channel = event.getChannel();
-        Message message = event.getMessage();
         channel.sendTyping().queue();
         message.delete().queue();
 
@@ -57,8 +54,8 @@ public class commandJoinmessages implements Command{
             e.printStackTrace();
         }
 
-        if(properties.getProperty("joinmessages") == null){
-            properties.setProperty("joinmessages", "enabled");
+        if(properties.getProperty("prefix") == null){
+            properties.setProperty("prefix", "!!");
             try {
                 properties.store(new FileOutputStream(file), null);
             } catch (IOException e) {
@@ -66,28 +63,21 @@ public class commandJoinmessages implements Command{
             }
         }
 
-
-        try {
-            BufferedOutputStream bos = new BufferedOutputStream(new FileOutputStream(file));
-        } catch (FileNotFoundException e) {
-            e.printStackTrace();
+        if(args.length > 0){
+            if(!(args[0].length() > 2)){
+                properties.setProperty("prefix", args[0]);
+                embedSender.sendEmbed(":white_check_mark: Successfully set prefix to `" + args[0] + "` !", channel, Color.green);
+                try {
+                    properties.store(new FileOutputStream(file), null);
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            } else {
+                embedSender.sendEmbed(":warning: The prefix can not be longer than 2 digits", channel, Color.red);
+            }
+        } else {
+            embedSender.sendEmbed("Usage: `" + STATIC.prefix + "preifx <prefix>`", channel, Color.red);
         }
-        if(!properties.getProperty("joinmessages").equals("disabled")){
-            properties.setProperty("joinmessages", "disabled");
-            embedSender.sendEmbed(":white_check_mark: Succesfully disabled joinmessages!", channel, Color.green);
-        } else if(properties.getProperty("joinmessages").equals("disabled")){
-            properties.setProperty("joinmessages", "enabled");
-            embedSender.sendEmbed(":white_check_mark: Succesfully enabled joinmessages!", channel, Color.green);
-
-
-        }
-
-        try {
-            properties.store(new FileOutputStream(file), null);
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-
 
 
 
@@ -96,6 +86,8 @@ public class commandJoinmessages implements Command{
 
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
+
+        System.out.println("[INFO] Command '" + STATIC.prefix + "prefix' was executed by" + event.getAuthor().getName());
 
     }
 

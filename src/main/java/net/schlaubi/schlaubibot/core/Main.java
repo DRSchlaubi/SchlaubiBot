@@ -80,6 +80,8 @@ public class Main {
        commandHandler.commands.put("userinfo", new commandUserInfo());
        commandHandler.commands.put("music", new Music());
        commandHandler.commands.put("m", new Music());
+       commandHandler.commands.put("prefix", new commandPrefix());
+
     }
 
 

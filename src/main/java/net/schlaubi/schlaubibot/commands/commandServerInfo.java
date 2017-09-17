@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.schlaubi.schlaubibot.util.STATIC;
 
 import java.awt.*;
+import java.nio.file.attribute.UserDefinedFileAttributeView;
 
 public class commandServerInfo implements Command {
     @Override
@@ -34,12 +35,14 @@ public class commandServerInfo implements Command {
                 .addField("Textchannels", String.valueOf(guild.getTextChannels().size()), false)
                 .addField("Voicechannels", String.valueOf(guild.getVoiceChannels().size()), false)
                 .addField("Roles", String.valueOf(guild.getRoles().size()), false)
-                .addField("AFK timeout", "AFK timeout after " + afk + "minutes", false)
+                .addField("AFK timeout", "AFK timeout after " + afk + " minutes", false)
                 .addField("Owner",  guild.getOwner().getUser().getName() + "#" + guild.getOwner().getUser().getDiscriminator(), false)
                 .addField("Icon URL", guild.getIconUrl(), false)
                 .setColor(Color.cyan)
                 .setFooter("SchlaubiBot made by Schlaubi", null);
         channel.sendMessage(embed.build()).queue();
+
+
 
 
 

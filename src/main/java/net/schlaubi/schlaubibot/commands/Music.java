@@ -171,241 +171,241 @@ public class Music implements Command {
         channel.sendTyping().queue();
         message.delete().queue();
 
-        if(!(args[0].toLowerCase() == "") && !event.getMember().getVoiceState().inVoiceChannel()){
-            embedSender.sendEmbed(":warning: You must be in a voice channel", channel, Color.red);
-            return;
-        }
 
-        if(!(args[0].toLowerCase() == "") && event.getGuild().getSelfMember().getVoiceState().inVoiceChannel() && !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getSelfMember().getVoiceState().getChannel())){
-            embedSender.sendEmbed(":warning: You must be in the same channel as the bot", channel, Color.red);
-            return;
-        }
 
 
         guild = event.getGuild();
 
-        if (args.length < 1) {
-            sendErrorMsg(event, help(), 10000);
-            return;
-        }
+        if (args.length > 0) {
+            if(!(args[0].toLowerCase() == "") && !event.getMember().getVoiceState().inVoiceChannel()){
+                embedSender.sendEmbed(":warning: You must be in a voice channel", channel, Color.red);
+                return;
+            }
 
-        switch (args[0].toLowerCase()) {
+            if(!(args[0].toLowerCase() == "") && event.getGuild().getSelfMember().getVoiceState().inVoiceChannel() && !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getSelfMember().getVoiceState().getChannel())){
+                embedSender.sendEmbed(":warning: You must be in the same channel as the bot", channel, Color.red);
+                return;
+            }
 
-            case "play":
-            case "p":
+            switch (args[0].toLowerCase()) {
 
-                if (args.length < 2) {
-                    sendErrorMsg(event, "Please enter a valid source!", 5000);
-                    return;
-                }
+                case "play":
+                case "p":
 
-                String input = Arrays.stream(args).skip(1).map(s -> " " + s).collect(Collectors.joining()).substring(1);
-
-                if (!(input.startsWith("http://") || input.startsWith("https://"))) {
-                    embedSender.sendEmbed(":youtube: **Searching** :mag_right: `" + input + "`", channel, Color.cyan);
-                    input = "ytsearch: " + input;
-                }
-
-                embedSender.sendEmbed("Searching for " + input.replace("ytsearch: ", "") + " ...", channel, Color.cyan);
-                loadTrack(input, event.getMember(), event.getMessage());
-                new Timer().schedule(new TimerTask() {
-                    @Override
-                    public void run() {
-                        int tracks = getManager(guild).getQueue().size();
-                        if(tracks == 0)
-                            embedSender.sendEmbed(":warning: I can't find a video for you search query SORRY!", channel, Color.red);
-                        else
-                            embedSender.sendEmbed("**Added** :notes:`" + tracks + "` to the queue!", channel, Color.CYAN);
+                    if (args.length < 2) {
+                        sendErrorMsg(event, "Please enter a valid source!", 5000);
+                        return;
                     }
-                },3000);
 
-                break;
+                    String input = Arrays.stream(args).skip(1).map(s -> " " + s).collect(Collectors.joining()).substring(1);
 
+                    if (!(input.startsWith("http://") || input.startsWith("https://"))) {
+                        embedSender.sendEmbed(":youtube: **Searching** :mag_right: `" + input + "`", channel, Color.cyan);
+                        input = "ytsearch: " + input;
+                    }
 
-            case "skip":
-            case "s":
+                    embedSender.sendEmbed("Searching for " + input.replace("ytsearch: ", "") + " ...", channel, Color.cyan);
+                    loadTrack(input, event.getMember(), event.getMessage());
+                    new Timer().schedule(new TimerTask() {
+                        @Override
+                        public void run() {
+                            int tracks = getManager(guild).getQueue().size();
+                            int tracksize = tracks - (getManager(guild).getQueue().size() - 1);
+                            if (tracks == 0)
+                                embedSender.sendEmbed(":warning: I can't find a video for you search query SORRY!", channel, Color.red);
+                            else
+                                embedSender.sendEmbed("**Added** :notes:`" + tracks   + "` to the queue!", channel, Color.CYAN);
+                        }
+                    }, 3000);
 
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
-                for (int i = (args.length > 1 ? Integer.parseInt(args[1]) : 1); i >= 1; i--) {
-                    skip(guild);
-                }
-                if (args.length > 1)
-                    embedSender.sendEmbed(":white_check_mark: Succefully skipped `" + args[1] + "` songs", channel, Color.green);
-                else
-                    embedSender.sendEmbed(":white_check_mark: Succefully skipped current songs", channel, Color.green);
-
-
-
-                break;
-
-
-            case "stop":
-            case "st":
-
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
-                getManager(guild).purgeQueue();
-                guild.getAudioManager().closeAudioConnection();
-                embedSender.sendEmbed(":stop_button:  Successfully stopped queue", channel, Color.green);
-
-                break;
+                    break;
 
 
-            case "shuffle":
-            case "sh":
+                case "skip":
+                case "s":
 
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
-                getManager(guild).shuffleQueue();
-                embedSender.sendEmbed(":twisted_rightwards_arrows: Succesfully shuffeled queue", channel, Color.green);
-
-                break;
-
-
-            case "now":
-            case "info":
-            case "nowplaying":
-            case "np":
-
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
-
-                AudioTrack track = getPlayer(guild).getPlayingTrack();
-                AudioTrackInfo info = track.getInfo();
-
-                event.getTextChannel().sendMessage(
-                        new EmbedBuilder()
-                                .setDescription("**CURRENT TRACK INFO:**")
-                                .addField("Title", info.title, false)
-                                .addField("Duration", "`[ " + getTimestamp(track.getPosition()) + "/ " + getTimestamp(track.getDuration()) + " ]`", false)
-                                .addField("Author", info.author, false)
-                                .build()
-                ).queue();
-
-                break;
-
-
-
-            case "queue":
-
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
-
-                try {
-                    int sideNumb = args.length > 1 ? Integer.parseInt(args[1]) : 1;
-
-                    List<String> tracks = new ArrayList<>();
-                    List<String> trackSublist;
-
-                    getManager(guild).getQueue().forEach(audioInfo -> tracks.add(buildQueueMessage(audioInfo)));
-
-                    if (tracks.size() > 20)
-                        trackSublist = tracks.subList((sideNumb - 1) * 20, (sideNumb - 1) * 20 + 20);
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+                    for (int i = (args.length > 1 ? Integer.parseInt(args[1]) : 1); i >= 1; i--) {
+                        skip(guild);
+                    }
+                    if (args.length > 1)
+                        embedSender.sendEmbed(":white_check_mark: Succefully skipped `" + args[1] + "` songs", channel, Color.green);
                     else
-                        trackSublist = tracks;
+                        embedSender.sendEmbed(":white_check_mark: Succefully skipped current songs", channel, Color.green);
 
-                    String out = trackSublist.stream().collect(Collectors.joining("\n"));
-                    int sideNumbAll = tracks.size() >= 20 ? tracks.size() / 20 : 1;
+
+                    break;
+
+
+                case "stop":
+                case "st":
+
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+                    getManager(guild).purgeQueue();
+                    guild.getAudioManager().closeAudioConnection();
+                    embedSender.sendEmbed(":stop_button:  Successfully stopped queue", channel, Color.green);
+
+                    break;
+
+
+                case "shuffle":
+                case "sh":
+
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+                    getManager(guild).shuffleQueue();
+                    embedSender.sendEmbed(":twisted_rightwards_arrows: Succesfully shuffeled queue", channel, Color.green);
+
+                    break;
+
+
+                case "now":
+                case "info":
+                case "nowplaying":
+                case "np":
+
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+
+                    AudioTrack track = getPlayer(guild).getPlayingTrack();
+                    AudioTrackInfo info = track.getInfo();
 
                     event.getTextChannel().sendMessage(
                             new EmbedBuilder()
-                                    .setDescription(
-                                            "**CURRENT QUEUE:**\n" +
-                                                    "*[" + getManager(guild).getQueue().size() + " Tracks | Side " + sideNumb + " / " + sideNumbAll + "]*" +
-                                                    out
-                                    )
+                                    .setDescription("**CURRENT TRACK INFO:**")
+                                    .addField("Title", info.title, false)
+                                    .addField("Duration", "`[ " + getTimestamp(track.getPosition()) + "/ " + getTimestamp(track.getDuration()) + " ]`", false)
+                                    .addField("Author", info.author, false)
                                     .build()
                     ).queue();
-                } catch (NumberFormatException e){
-                    embedSender.sendEmbed(":warning: Please send a valid nubmer", channel, Color.red);
-                }
+
+                    break;
 
 
-                break;
-            case "clear":
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
+                case "queue":
 
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
-
-                getManager(guild).purgeQueue();
-                embedSender.sendEmbed(":white_check_mark: Succesfully clearde queue", channel, Color.green);
-                break;
-            case "volume":
-            case "vol":
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
-
-                try{
-                    int vol = Integer.parseInt(args[1]);
-                    if (vol > 0 && vol < 11){
-                        getPlayer(guild).setVolume(vol * 10);
-                        embedSender.sendEmbed(":white_check_mark: Succesfully set the volume to `" + vol * 10 + "%`", channel, Color.green);
-                    } else {
-                        embedSender.sendEmbed(":warning: Please provide a number between 1 and 10", channel, Color.red);
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
                     }
-                } catch (NumberFormatException e){
-                    embedSender.sendEmbed(":warning: Please provide a valid number", channel, Color.red);
-                }
-                break;
-            case "pause":
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
-                if(getPlayer(guild).isPaused()){
-                    embedSender.sendEmbed(":warning: This queue is already paused", channel, Color.red);
-                    return;
-                }
 
-                getPlayer(guild).setPaused(true);
-                embedSender.sendEmbed(":pause_button: Successfully paused queue", channel, Color.green);
-                break;
-            case "resume":
-                if (isIdle(guild)){
-                    embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
-                    return;
-                }
+                    try {
+                        int sideNumb = args.length > 1 ? Integer.parseInt(args[1]) : 1;
 
-                if(!getPlayer(guild).isPaused()){
-                    embedSender.sendEmbed("The queue is not paused on this Guild", channel, Color.red);
-                    return;
-                }
+                        List<String> tracks = new ArrayList<>();
+                        List<String> trackSublist;
 
-                if(getPlayer(guild).isPaused()){
-                    getPlayer(guild).setPaused(false);
-                    embedSender.sendEmbed(":play_pause: Successfully resumed queue", channel, Color.green);
-                }
-                break;
-            case "disconnect":
-            case "quit":
-               if (!guild.getSelfMember().getVoiceState().inVoiceChannel()){
-                   embedSender.sendEmbed("I am not connected to a voice channel", channel, Color.red);
-                   return;
-               }
-               guild.getAudioManager().closeAudioConnection();
-               embedSender.sendEmbed(":white_check_mark: Successfully disconected", channel, Color.green);
-               break;
-            default:
-                sendErrorMsg(event, help(), 10000);
+                        getManager(guild).getQueue().forEach(audioInfo -> tracks.add(buildQueueMessage(audioInfo)));
+
+                        if (tracks.size() > 20)
+                            trackSublist = tracks.subList((sideNumb - 1) * 20, (sideNumb - 1) * 20 + 20);
+                        else
+                            trackSublist = tracks;
+
+                        String out = trackSublist.stream().collect(Collectors.joining("\n"));
+                        int sideNumbAll = tracks.size() >= 20 ? tracks.size() / 20 : 1;
+
+                        event.getTextChannel().sendMessage(
+                                new EmbedBuilder()
+                                        .setDescription(
+                                                "**CURRENT QUEUE:**\n" +
+                                                        "*[" + getManager(guild).getQueue().size() + " Tracks | Side " + sideNumb + " / " + sideNumbAll + "]*" +
+                                                        out
+                                        )
+                                        .build()
+                        ).queue();
+                    } catch (NumberFormatException e) {
+                        embedSender.sendEmbed(":warning: Please send a valid nubmer", channel, Color.red);
+                    }
+
+
+                    break;
+                case "clear":
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+
+                    getManager(guild).purgeQueue();
+                    embedSender.sendEmbed(":white_check_mark: Succesfully clearde queue", channel, Color.green);
+                    break;
+                case "volume":
+                case "vol":
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+
+                    try {
+                        int vol = Integer.parseInt(args[1]);
+                        if (vol > 0 && vol < 11) {
+                            getPlayer(guild).setVolume(vol * 10);
+                            embedSender.sendEmbed(":white_check_mark: Succesfully set the volume to `" + vol * 10 + "%`", channel, Color.green);
+                        } else {
+                            embedSender.sendEmbed(":warning: Please provide a number between 1 and 10", channel, Color.red);
+                        }
+                    } catch (NumberFormatException e) {
+                        embedSender.sendEmbed(":warning: Please provide a valid number", channel, Color.red);
+                    }
+                    break;
+                case "pause":
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+                    if (getPlayer(guild).isPaused()) {
+                        embedSender.sendEmbed(":warning: This queue is already paused", channel, Color.red);
+                        return;
+                    }
+
+                    getPlayer(guild).setPaused(true);
+                    embedSender.sendEmbed(":pause_button: Successfully paused queue", channel, Color.green);
+                    break;
+                case "resume":
+                    if (isIdle(guild)) {
+                        embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
+                        return;
+                    }
+
+                    if (!getPlayer(guild).isPaused()) {
+                        embedSender.sendEmbed("The queue is not paused on this Guild", channel, Color.red);
+                        return;
+                    }
+
+                    if (getPlayer(guild).isPaused()) {
+                        getPlayer(guild).setPaused(false);
+                        embedSender.sendEmbed(":play_pause: Successfully resumed queue", channel, Color.green);
+                    }
+                    break;
+                case "disconnect":
+                case "quit":
+                    if (!guild.getSelfMember().getVoiceState().inVoiceChannel()) {
+                        embedSender.sendEmbed("I am not connected to a voice channel", channel, Color.red);
+                        return;
+                    }
+                    guild.getAudioManager().closeAudioConnection();
+                    embedSender.sendEmbed(":white_check_mark: Successfully disconected", channel, Color.green);
+                    break;
+                default:
+                    sendErrorMsg(event, help(), 10000);
+            }
+        } else {
+            sendErrorMsg(event, help(), 10000);
         }
 
 

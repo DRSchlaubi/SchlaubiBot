@@ -1,6 +1,8 @@
 package net.schlaubi.schlaubibot.util;
 
 
+import net.schlaubi.schlaubibot.listeners.commandListener;
+
 public class STATIC {
 
     public static final String game = "SchlaubiBot v" + STATIC.VERSION + " | " + STATIC.prefix + "help | Made by Schlaubi";

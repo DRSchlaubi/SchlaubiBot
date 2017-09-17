@@ -25,33 +25,35 @@ public class commandBan implements Command {
         Guild guild = event.getGuild();
         GuildController guildcon = new GuildController(event.getGuild());
         Member selfmember = guild.getSelfMember();
-        
+
         channel.sendTyping().queue();
         message.delete().queue();
 
-        if(permissionHandler.check(event)){
+        if (permissionHandler.check(event)) {
 
             embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
             return;
         }
-            if(args.length >0){
-                List<User> mentioned = message.getMentionedUsers();
-                for (User users : mentioned){
-                    Member members = guild.getMember(users);
-                    if(selfmember.canInteract(members)){
-                        guildcon.ban(members, 7).queue();
-                        embedSender.sendEmbed(":white_check_mark: Succesfully banned " + users.getAsMention(), channel, Color.green);
+        if (args.length > 0) {
+            List<User> mentioned = message.getMentionedUsers();
+            for (User users : mentioned) {
+                Member members = guild.getMember(users);
+                if (selfmember.canInteract(members)) {
+                    guildcon.ban(members, 7).queue();
+                    embedSender.sendEmbed(":white_check_mark: Succesfully banned " + users.getAsMention(), channel, Color.green);
 
-                    } else {
-                        embedSender.sendEmbed(":warning: Can't ban " + users.getAsMention() + " he's an admin!", channel, Color.red);
-                    }
+                } else {
+                    embedSender.sendEmbed(":warning: Can't ban " + users.getAsMention() + " he's an admin!", channel, Color.red);
                 }
-                
-            } else {
-                embedSender.sendEmbed("Usage `" + STATIC.prefix + "ban <@User>`", channel, Color.red);
             }
-            
+
+        } else {
+            embedSender.sendEmbed("Usage `" + STATIC.prefix + "ban <@User>`", channel, Color.red);
         }
+
+    }
+
+
 
 
     @Override
