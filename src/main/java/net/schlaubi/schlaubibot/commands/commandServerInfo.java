@@ -52,7 +52,7 @@ public class commandServerInfo implements Command {
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '-" + STATIC.prefix +"serverinfo' was executed by " + event.getAuthor().getName());
+        System.out.println("[INFO] Command '" + STATIC.prefix +"serverinfo' was executed by " + event.getAuthor().getName());
 
     }
 

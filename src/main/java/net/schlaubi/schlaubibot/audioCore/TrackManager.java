@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.VoiceChannel;
 
+import java.sql.Time;
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
 
@@ -24,7 +25,13 @@ public class TrackManager extends AudioEventAdapter{
 
         if (QUEUE.isEmpty()) {
 
-            g.getAudioManager().closeAudioConnection();
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    g.getAudioManager().closeAudioConnection();
+                }
+            }, 3000);
+
 
         } else {
             player.playTrack(QUEUE.element().getTrack());
