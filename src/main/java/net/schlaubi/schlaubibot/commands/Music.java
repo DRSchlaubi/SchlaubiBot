@@ -93,12 +93,15 @@ public class Music implements Command {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                try {
-                    for (int i = 0; i < (playlist.getTracks().size() > PLAYLIST_LIMIT ? PLAYLIST_LIMIT : playlist.getTracks().size()); i++) {
+                if (playlist.getSelectedTrack() != null) {
+                    trackLoaded(playlist.getSelectedTrack());
+                } else if (playlist.isSearchResult()) {
+                    trackLoaded(playlist.getTracks().get(0));
+                } else {
+
+                    for (int i = 0; i < Math.min(playlist.getTracks().size(), PLAYLIST_LIMIT); i++) {
                         getManager(guild).queue(playlist.getTracks().get(i), author);
                     }
-                } catch (FriendlyException e){
-
                 }
 
             }
@@ -197,12 +200,12 @@ public class Music implements Command {
                         return;
                     }
 
-                    String input = Arrays.stream(args).skip(1).map(s -> " " + s).collect(Collectors.joining()).substring(1);
+                    String input = String.join(" ", Arrays.copyOfRange(args, 1, args.length));
 
-                    if (!(input.startsWith("http://") || input.startsWith("https://"))) {
-                        embedSender.sendEmbed(":youtube: **Searching** :mag_right: `" + input + "`", channel, Color.cyan);
+                    if (input != null && input.startsWith("http"))
+                        STATIC.input = input;
+                    else
                         input = "ytsearch: " + input;
-                    }
 
                     embedSender.sendEmbed("Searching for " + input.replace("ytsearch: ", "") + " ...", channel, Color.cyan);
                     loadTrack(input, event.getMember(), event.getMessage());
