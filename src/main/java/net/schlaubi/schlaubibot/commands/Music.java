@@ -1,6 +1,6 @@
 package net.schlaubi.schlaubibot.commands;
 
-import com.sedmelluq.discord.lavaplayer.source.youtube.YoutubeAudioTrack;
+
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.schlaubi.schlaubibot.audioCore.*;
 import com.sedmelluq.discord.lavaplayer.player.AudioLoadResultHandler;
@@ -47,8 +47,10 @@ public class Music implements Command {
         p.addListener(m);
 
         guild.getAudioManager().setSendingHandler(new PlayerSendHandler(p));
+        guild.getAudioManager().setSelfDeafened(true);
 
         PLAYERS.put(g, new AbstractMap.SimpleEntry<>(p, m));
+
 
         return p;
     }
@@ -91,9 +93,14 @@ public class Music implements Command {
 
             @Override
             public void playlistLoaded(AudioPlaylist playlist) {
-                for (int i = 0; i < (playlist.getTracks().size() > PLAYLIST_LIMIT ? PLAYLIST_LIMIT : playlist.getTracks().size()); i++) {
-                    getManager(guild).queue(playlist.getTracks().get(i), author);
+                try {
+                    for (int i = 0; i < (playlist.getTracks().size() > PLAYLIST_LIMIT ? PLAYLIST_LIMIT : playlist.getTracks().size()); i++) {
+                        getManager(guild).queue(playlist.getTracks().get(i), author);
+                    }
+                } catch (FriendlyException e){
+
                 }
+
             }
 
             @Override
@@ -111,7 +118,10 @@ public class Music implements Command {
 
 
     private void skip(Guild g) {
+
         getPlayer(g).stopTrack();
+
+
     }
 
 
@@ -133,13 +143,19 @@ public class Music implements Command {
     }
 
 
-    private void sendErrorMsg(MessageReceivedEvent event, String content) {
-        event.getTextChannel().sendMessage(
+    private void sendErrorMsg(MessageReceivedEvent event, String content, Integer millis) {
+        Message mymsg = event.getTextChannel().sendMessage(
                 new EmbedBuilder()
                         .setColor(Color.red)
                         .setDescription(content)
                         .build()
-        ).queue();
+        ).complete();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                mymsg.delete().queue();
+            }
+        }, millis);
     }
 
 
@@ -155,12 +171,12 @@ public class Music implements Command {
         channel.sendTyping().queue();
         message.delete().queue();
 
-        if(!event.getMember().getVoiceState().inVoiceChannel()){
+        if(!(args[0].toLowerCase() == "") && !event.getMember().getVoiceState().inVoiceChannel()){
             embedSender.sendEmbed(":warning: You must be in a voice channel", channel, Color.red);
             return;
         }
 
-        if(event.getGuild().getSelfMember().getVoiceState().inVoiceChannel() && !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getSelfMember().getVoiceState().getChannel())){
+        if(!(args[0].toLowerCase() == "") && event.getGuild().getSelfMember().getVoiceState().inVoiceChannel() && !event.getMember().getVoiceState().getChannel().equals(event.getGuild().getSelfMember().getVoiceState().getChannel())){
             embedSender.sendEmbed(":warning: You must be in the same channel as the bot", channel, Color.red);
             return;
         }
@@ -169,7 +185,7 @@ public class Music implements Command {
         guild = event.getGuild();
 
         if (args.length < 1) {
-            sendErrorMsg(event, help());
+            sendErrorMsg(event, help(), 10000);
             return;
         }
 
@@ -179,7 +195,7 @@ public class Music implements Command {
             case "p":
 
                 if (args.length < 2) {
-                    sendErrorMsg(event, "Please enter a valid source!");
+                    sendErrorMsg(event, "Please enter a valid source!", 5000);
                     return;
                 }
 
@@ -190,7 +206,7 @@ public class Music implements Command {
                     input = "ytsearch: " + input;
                 }
 
-                embedSender.sendEmbed("Searching for " + input + " ...", channel, Color.cyan);
+                embedSender.sendEmbed("Searching for " + input.replace("ytsearch: ", "") + " ...", channel, Color.cyan);
                 loadTrack(input, event.getMember(), event.getMessage());
                 new Timer().schedule(new TimerTask() {
                     @Override
@@ -234,7 +250,6 @@ public class Music implements Command {
                     return;
                 }
                 getManager(guild).purgeQueue();
-                skip(guild);
                 guild.getAudioManager().closeAudioConnection();
                 embedSender.sendEmbed(":stop_button:  Successfully stopped queue", channel, Color.green);
 
@@ -388,7 +403,9 @@ public class Music implements Command {
                }
                guild.getAudioManager().closeAudioConnection();
                embedSender.sendEmbed(":white_check_mark: Successfully disconected", channel, Color.green);
-
+               break;
+            default:
+                sendErrorMsg(event, help(), 10000);
         }
 
 
@@ -396,6 +413,8 @@ public class Music implements Command {
 
     @Override
     public void executed(boolean sucess, MessageReceivedEvent event) {
+
+        System.out.println("[INFO] Command '" + STATIC.prefix + "music' was executed by " + event.getAuthor().getName());
 
     }
 

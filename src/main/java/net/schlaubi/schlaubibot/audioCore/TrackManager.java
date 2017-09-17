@@ -17,6 +17,21 @@ public class TrackManager extends AudioEventAdapter{
     private final AudioPlayer PLAYER;
     private final Queue<AudioInfo> QUEUE;
 
+
+    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason){
+
+         Guild g = QUEUE.poll().getAuthor().getGuild();
+
+        if (QUEUE.isEmpty()) {
+
+            g.getAudioManager().closeAudioConnection();
+
+        } else {
+            player.playTrack(QUEUE.element().getTrack());
+        }
+
+    }
+
     public TrackManager(AudioPlayer player){
         this.PLAYER = player;
         this.QUEUE = new LinkedBlockingQueue<>();
@@ -65,21 +80,14 @@ public class TrackManager extends AudioEventAdapter{
         if(vChan == null) {
             player.stopTrack();
         } else {
+
             info.getAuthor().getGuild().getAudioManager().openAudioConnection(vChan);
+
         }
 
 
     }
 
-    @Override
-    public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason) {
-        Guild g = QUEUE.poll().getAuthor().getGuild();
-
-        if (QUEUE.isEmpty())
-            g.getAudioManager().closeAudioConnection();
-        else
-            player.playTrack(QUEUE.element().getTrack());
-    }
 
 
 

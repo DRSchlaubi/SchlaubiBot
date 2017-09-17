@@ -3,8 +3,7 @@ package net.schlaubi.schlaubibot.core;
 
 
 
-import net.schlaubi.schlaubibot.audioCore.PlayerSendHandler;
-import net.schlaubi.schlaubibot.audioCore.TrackManager;
+
 import net.schlaubi.schlaubibot.commands.*;
 import net.schlaubi.schlaubibot.listeners.GuildMemberJoinListener;
 import net.schlaubi.schlaubibot.listeners.GuildMemberLeaveListener;
@@ -25,6 +24,8 @@ import javax.security.auth.login.LoginException;
 
 
 public class Main {
+
+    public static JDABuilder builder;
 
     public static void main(String[] Args){
         System.out.println("[SchlaubiBot] Starting bot...");
@@ -80,5 +81,9 @@ public class Main {
        commandHandler.commands.put("music", new Music());
        commandHandler.commands.put("m", new Music());
     }
+
+
+
+
 
 }
