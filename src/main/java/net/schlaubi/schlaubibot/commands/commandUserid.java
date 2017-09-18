@@ -32,8 +32,8 @@ public class commandUserid implements Command {
         if(args.length > 0){
             for (User users : mentioned){
                 String userid = users.getId();
-                embedSender.sendEmbed("__**Userid of " + author.getAsMention() + ":**__ \n ```" + userid + "```", channel, Color.CYAN);
-                embedSender.sendPermanentEmbed("__**Userid of " + author.getAsMention() + ":**__ \n ```" + userid + "```", privch, Color.CYAN);
+                embedSender.sendEmbed("__**Userid of " + users.getAsMention() + ":**__ \n ```" + userid + "```", channel, Color.CYAN);
+                embedSender.sendPermanentEmbed("__**Userid of " + users.getAsMention() + ":**__ \n ```" + userid + "```", privch, Color.CYAN);
             }
 
         } else {
