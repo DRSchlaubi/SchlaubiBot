@@ -322,7 +322,7 @@ public class Music implements Command {
                                 new EmbedBuilder()
                                         .setDescription(
                                                 "**CURRENT QUEUE:**\n" +
-                                                        "*[" + getManager(guild).getQueue().size() + " Tracks | Side " + sideNumb + " / " + sideNumbAll + "]*" +
+                                                        "*[" + getManager(guild).getQueue().size() + " Tracks | Side " + sideNumb + " / " + sideNumbAll + "]* \n" +
                                                         out
                                         )
                                         .build()

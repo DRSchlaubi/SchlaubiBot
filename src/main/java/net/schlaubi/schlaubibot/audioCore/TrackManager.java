@@ -20,21 +20,24 @@ public class TrackManager extends AudioEventAdapter{
 
 
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason){
+        try {
+            Guild g = QUEUE.poll().getAuthor().getGuild();
 
-         Guild g = QUEUE.poll().getAuthor().getGuild();
+            if (QUEUE.isEmpty()) {
 
-        if (QUEUE.isEmpty()) {
-
-            new Timer().schedule(new TimerTask() {
-                @Override
-                public void run() {
-                    g.getAudioManager().closeAudioConnection();
-                }
-            }, 3000);
+                new Timer().schedule(new TimerTask() {
+                    @Override
+                    public void run() {
+                        g.getAudioManager().closeAudioConnection();
+                    }
+                }, 3000);
 
 
-        } else {
-            player.playTrack(QUEUE.element().getTrack());
+            } else {
+                player.playTrack(QUEUE.element().getTrack());
+            }
+        } catch (NullPointerException e){
+
         }
 
     }
@@ -76,7 +79,7 @@ public class TrackManager extends AudioEventAdapter{
         Collections.shuffle(cQueue);
         cQueue.add(0, current);
         purgeQueue();
-        cQueue.addAll(cQueue);
+        QUEUE.addAll(cQueue);
     }
 
     @Override
