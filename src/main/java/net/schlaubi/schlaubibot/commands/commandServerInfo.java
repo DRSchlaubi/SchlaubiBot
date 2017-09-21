@@ -6,7 +6,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.schlaubi.schlaubibot.util.STATIC;
 
 import java.awt.*;
-import java.nio.file.attribute.UserDefinedFileAttributeView;
 
 public class commandServerInfo implements Command {
     @Override

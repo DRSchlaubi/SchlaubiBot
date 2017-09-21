@@ -28,7 +28,7 @@ public class GuildMemberJoinListener extends ListenerAdapter {
             }
         }
         Properties properties = new Properties();
-        BufferedInputStream bis = null;
+        BufferedInputStream bis;
 
         if(properties.getProperty("joinmessages") == null){
             properties.setProperty("joinmessages", "enabled");

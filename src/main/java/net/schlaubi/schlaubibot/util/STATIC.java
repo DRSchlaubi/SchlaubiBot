@@ -1,7 +1,6 @@
 package net.schlaubi.schlaubibot.util;
 
 
-import net.schlaubi.schlaubibot.listeners.commandListener;
 
 public class STATIC {
 

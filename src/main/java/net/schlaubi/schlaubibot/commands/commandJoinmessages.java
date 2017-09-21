@@ -2,7 +2,6 @@ package net.schlaubi.schlaubibot.commands;
 
 
 import net.dv8tion.jda.core.entities.*;
-import net.dv8tion.jda.core.managers.GuildController;
 import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.schlaubi.schlaubibot.util.embedSender;

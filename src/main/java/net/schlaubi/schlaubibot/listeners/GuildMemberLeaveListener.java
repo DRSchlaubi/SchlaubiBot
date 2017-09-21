@@ -27,7 +27,7 @@ public class GuildMemberLeaveListener extends ListenerAdapter {
             }
         }
         Properties properties = new Properties();
-        BufferedInputStream bis = null;
+        BufferedInputStream bis;
         try {
             bis = new BufferedInputStream(new FileInputStream(file));
             properties.load(bis);
