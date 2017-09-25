@@ -217,7 +217,7 @@ public class Music implements Command {
                             if (tracks == 0)
                                 embedSender.sendEmbed(":warning: I can't find a video for you search query SORRY!", channel, Color.red);
                             else
-                                embedSender.sendEmbed("**Added** :notes:`" + tracks   + "` to the queue!", channel, Color.CYAN);
+                                embedSender.sendEmbed("**Added** :notes:`" + String.valueOf(tracks - (getManager(guild).getQueue().size()- 1)) + "` to the queue!", channel, Color.CYAN);
                         }
                     }, 3000);
 

@@ -22,7 +22,6 @@ import net.schlaubi.schlaubibot.util.STATIC;
 import javax.security.auth.login.LoginException;
 
 
-
 public class Main {
 
     public static JDABuilder builder;
@@ -53,6 +52,7 @@ public class Main {
 
 
 
+
     public static void addCommands(){
 
        commandHandler.commands.put("ping", new commandPing());
@@ -80,6 +80,8 @@ public class Main {
        commandHandler.commands.put("userinfo", new commandUserInfo());
        commandHandler.commands.put("music", new Music());
        commandHandler.commands.put("m", new Music());
+       commandHandler.commands.put("addrole", new commandAddrole());
+       commandHandler.commands.put("removerole", new commandRemoverole());
 
     }
 
