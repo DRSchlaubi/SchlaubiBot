@@ -16,6 +16,7 @@ import net.dv8tion.jda.core.OnlineStatus;
 import net.dv8tion.jda.core.entities.Game;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
 
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.SECRETS;
 import net.schlaubi.schlaubibot.util.STATIC;
 
@@ -28,6 +29,7 @@ public class Main {
 
     public static void main(String[] Args){
         System.out.println("[SchlaubiBot] Starting bot...");
+        MySQL.connect();
         JDABuilder builder = new JDABuilder(AccountType.BOT);
         builder.setToken(SECRETS.token);
         builder.setAutoReconnect(true);

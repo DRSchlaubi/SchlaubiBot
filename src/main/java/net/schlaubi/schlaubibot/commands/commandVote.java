@@ -1,5 +1,6 @@
 package net.schlaubi.schlaubibot.commands;
 
+import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.JDA;
@@ -14,13 +15,14 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
+import java.util.stream.Collectors;
 
 
 public class commandVote implements Command, Serializable {
 
     private static TextChannel channel;
 
-    private static HashMap<Guild, Poll> polls = new HashMap<>();
+    public static HashMap<Guild, Poll> polls = new HashMap<>();
 
     private static final String[] EMOTI = {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":keycap_ten:"};
 
@@ -88,6 +90,8 @@ public class commandVote implements Command, Serializable {
                 .setColor(Color.CYAN);
 
     }
+
+
 
 
     private void createPoll(String[] args, MessageReceivedEvent event){
