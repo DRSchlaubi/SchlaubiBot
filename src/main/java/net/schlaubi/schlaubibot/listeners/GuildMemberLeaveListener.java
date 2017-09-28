@@ -19,7 +19,7 @@ public class GuildMemberLeaveListener extends ListenerAdapter {
         String channelid = MySQL.getValue(guild, "joinmessagechannel");
         String leavemessage = MySQL.getValue(guild, "leavemessage").replace("%user%", e.getUser().getName());
 
-        if(enabled != "0") {
+        if(!enabled.equals("0")) {
             TextChannel channel = guild.getTextChannelById(channelid);
             channel.sendTyping().queue();
             channel.sendMessage(leavemessage).queue();
