@@ -1,5 +1,6 @@
 package net.schlaubi.schlaubibot.commands;
 
+
 import net.dv8tion.jda.core.events.message.react.MessageReactionAddEvent;
 import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.EmbedBuilder;
@@ -15,7 +16,6 @@ import java.io.*;
 import java.util.*;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
-import java.util.stream.Collectors;
 
 
 public class commandVote implements Command, Serializable {
@@ -24,7 +24,14 @@ public class commandVote implements Command, Serializable {
 
     public static HashMap<Guild, Poll> polls = new HashMap<>();
 
-    private static final String[] EMOTI = {":one:", ":two:", ":three:", ":four:", ":five:", ":six:", ":seven:", ":eight:", ":nine:", ":keycap_ten:"};
+    private static final String[] EMOTI = ( "\uD83C\uDF4F \uD83C\uDF4E \uD83C\uDF50 \uD83C\uDF4A \uD83C\uDF4B \uD83C\uDF4C \uD83C\uDF49 \uD83C\uDF47 \uD83C\uDF53 \uD83C\uDF48 \uD83C\uDF52 \uD83C\uDF51 \uD83C\uDF4D \uD83E\uDD5D " +
+            "\uD83E\uDD51 \uD83C\uDF45 \uD83C\uDF46 \uD83E\uDD52 \uD83E\uDD55 \uD83C\uDF3D \uD83C\uDF36 \uD83E\uDD54 \uD83C\uDF60 \uD83C\uDF30 \uD83E\uDD5C \uD83C\uDF6F \uD83E\uDD50 \uD83C\uDF5E " +
+            "\uD83E\uDD56 \uD83E\uDDC0 \uD83E\uDD5A \uD83C\uDF73 \uD83E\uDD53 \uD83E\uDD5E \uD83C\uDF64 \uD83C\uDF57 \uD83C\uDF56 \uD83C\uDF55 \uD83C\uDF2D \uD83C\uDF54 \uD83C\uDF5F \uD83E\uDD59 " +
+            "\uD83C\uDF2E \uD83C\uDF2F \uD83E\uDD57 \uD83E\uDD58 \uD83C\uDF5D \uD83C\uDF5C \uD83C\uDF72 \uD83C\uDF65 \uD83C\uDF63 \uD83C\uDF71 \uD83C\uDF5B \uD83C\uDF5A \uD83C\uDF59 \uD83C\uDF58 " +
+            "\uD83C\uDF62 \uD83C\uDF61 \uD83C\uDF67 \uD83C\uDF68 \uD83C\uDF66 \uD83C\uDF70 \uD83C\uDF82 \uD83C\uDF6E \uD83C\uDF6D \uD83C\uDF6C \uD83C\uDF6B \uD83C\uDF7F \uD83C\uDF69 \uD83C\uDF6A \uD83E\uDD5B " +
+            "\uD83C\uDF75 \uD83C\uDF76 \uD83C\uDF7A \uD83C\uDF7B \uD83E\uDD42 \uD83C\uDF77 \uD83E\uDD43 \uD83C\uDF78 \uD83C\uDF79 \uD83C\uDF7E \uD83E\uDD44 \uD83C\uDF74 \uD83C\uDF7D").split(" ");
+
+    private List<String> toAddEmojis = new ArrayList<>();
 
     private class Poll implements Serializable{
 
@@ -72,21 +79,21 @@ public class commandVote implements Command, Serializable {
 
     }
 
-    private EmbedBuilder getParsedPoll(Poll poll, Guild guild){
+    private static EmbedBuilder getParsedPoll(Poll poll, Guild guild){
 
          StringBuilder ansSTR = new StringBuilder();
          final AtomicInteger count = new AtomicInteger();
 
          poll.answers.forEach(s ->{
              long votescount = poll.votes.keySet().stream().filter(k -> poll.votes.get(k).equals(count.get() + 1)).count();
-             ansSTR.append(EMOTI[count.get()] + "  -  " + s + "  -  Votes: `" + votescount + "` \n");
+             ansSTR.append(EMOTI[count.get()] + " - " + (count.get() + 1) + "  -  " + s + "  -  Votes: `" + votescount + "` \n");
              count.addAndGet(1);
          });
 
         return new EmbedBuilder()
                 .setAuthor(poll.getCreator(guild).getEffectiveName() + "'s poll", null, poll.getCreator(guild).getUser().getAvatarUrl())
                 .setDescription(":pencil:   " + poll.heading + "\n\n" + ansSTR.toString())
-                .setFooter("Enter: '" + STATIC.prefix + "vote v <number>' to vote", null)
+                .setFooter("Enter: '" + STATIC.prefix + "vote v <number>' or react to vote", null)
                 .setColor(Color.CYAN);
 
     }
@@ -119,12 +126,20 @@ public class commandVote implements Command, Serializable {
             Poll poll = new Poll(event.getMember(), heading, answers, pollmsg);
             polls.put(event.getGuild(), poll);
 
+            List<String> emotis = new ArrayList<>(Arrays.asList(EMOTI));
+            answers.forEach(a -> {
+                   toAddEmojis.add(emotis.get(0));
+                   emotis.remove(0);
+
+
+            });
             new Timer().schedule(new TimerTask() {
                 @Override
                 public void run() {
                     pollmessage.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
+                    toAddEmojis.forEach((String s) -> pollmessage.addReaction(s).queue());
                 }
-            }, 4000);
+            }, 1500);
     }
 
 
@@ -159,13 +174,120 @@ public class commandVote implements Command, Serializable {
 
         poll.votes.put(event.getAuthor().getId(), vote);
         polls.replace(event.getGuild(), poll);
-        privateMessage("You have succesfully voted for option `" + args[1] + "`", new Color(0x3AD70E), event);
+        privateMessage("You have successfully voted for option `" + args[1] + "`", new Color(0x3AD70E), event);
         Message pollmsg =  channel.getMessageById(String.valueOf(poll.pollmsg)).complete();
         pollmsg.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
 
 
 
 
+
+
+
+    }
+
+    public static void reactVote(String reaction, MessageReactionAddEvent event) throws IOException, ClassNotFoundException {
+        if(event.getUser().isBot())
+            return;
+        if(!polls.containsKey(event.getGuild()))
+            return;
+
+        Poll poll = polls.get(event.getGuild());
+
+        if(poll.votes.containsKey(event.getUser().getId())){
+            embedSender.sendEmbed("Sorry, but you can only vote at once for a poll",event.getChannel(), Color.red);
+            new Timer().schedule(new TimerTask() {
+                @Override
+                public void run() {
+                    event.getReaction().removeReaction(event.getUser()).queue();
+                }
+            }, 1000);
+            return;
+        }
+
+        if(!poll.pollmsg.equals(event.getMessageId()))
+            return;
+
+        PrivateChannel privch = event.getUser().openPrivateChannel().complete();
+
+        String emoji = event.getReaction().getEmote().getName();
+        switch (emoji) {
+            case "\uD83C\uDF4F":
+                poll.votes.put(event.getUser().getId(), 1);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `1`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF4E":
+                poll.votes.put(event.getUser().getId(), 2);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `2`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF50":
+                if (poll.answers.size() < 3)
+                    return;
+                poll.votes.put(event.getUser().getId(), 3);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `3`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF4A":
+                if (poll.answers.size() < 4)
+                    return;
+                poll.votes.put(event.getUser().getId(), 4);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `4`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF4B":
+                if (poll.answers.size() < 5)
+                    return;
+                poll.votes.put(event.getUser().getId(), 5);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `5`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF4C":
+                if (poll.answers.size() < 6)
+                    return;
+                poll.votes.put(event.getUser().getId(), 6);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `6`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF49":
+                if (poll.answers.size() < 7)
+                    return;
+                poll.votes.put(event.getUser().getId(), 7);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `7`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF47":
+                if (poll.answers.size() < 8)
+                    return;
+                poll.votes.put(event.getUser().getId(), 8);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `8`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF53":
+                if (poll.answers.size() < 9)
+                    return;
+                poll.votes.put(event.getUser().getId(), 9);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `9`", privch, new Color(0x3AD70E));
+                break;
+            case "\uD83C\uDF48":
+                if (poll.answers.size() < 10)
+                    return;
+                poll.votes.put(event.getUser().getId(), 10);
+                polls.replace(event.getGuild(), poll);
+                embedSender.sendPermanentEmbed("You have succesfully voted for option `10`", privch, new Color(0x3AD70E));
+
+                break;
+        }
+        Message pollmsg =  event.getChannel().getMessageById(String.valueOf(poll.pollmsg)).complete();
+        pollmsg.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
+        new Timer().schedule(new TimerTask() {
+            @Override
+            public void run() {
+                event.getReaction().removeReaction(event.getUser()).queue();
+            }
+        }, 1000);
 
 
 

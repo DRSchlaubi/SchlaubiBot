@@ -50,7 +50,7 @@ public class commandJoinmessages implements Command{
 
                String enabled = MySQL.getValue(guild, "joinmessages");
 
-               if(enabled.equals("1")){
+                if(enabled.equals("1")){
                    MySQL.updateValue(guild, "joinmessages", "0");
                    embedSender.sendEmbed(":white_check_mark: Succesfully disabled joinmessages!", channel, Color.green);
                } else if(enabled.equals("0")){

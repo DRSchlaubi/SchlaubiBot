@@ -5,10 +5,7 @@ package net.schlaubi.schlaubibot.core;
 
 
 import net.schlaubi.schlaubibot.commands.*;
-import net.schlaubi.schlaubibot.listeners.GuildMemberJoinListener;
-import net.schlaubi.schlaubibot.listeners.GuildMemberLeaveListener;
-import net.schlaubi.schlaubibot.listeners.commandListener;
-import net.schlaubi.schlaubibot.listeners.readyListener;
+import net.schlaubi.schlaubibot.listeners.*;
 import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
@@ -39,6 +36,7 @@ public class Main {
         builder.addEventListener(new GuildMemberJoinListener());
         builder.addEventListener(new GuildMemberLeaveListener());
         builder.addEventListener(new readyListener());
+        builder.addEventListener(new ReactionListener());
         addCommands();
 
 
