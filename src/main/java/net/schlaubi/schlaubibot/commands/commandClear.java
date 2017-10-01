@@ -10,6 +10,7 @@ import java.util.List;
 
 
 import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 public class commandClear implements Command {
@@ -91,7 +92,7 @@ public class commandClear implements Command {
 
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
-        System.out.println("[INFO] Command '" + STATIC.prefix + " clear' was executed by " + event.getAuthor().getName());
+        commandLogger.logCommand("clear", event);
     }
 
     @Override

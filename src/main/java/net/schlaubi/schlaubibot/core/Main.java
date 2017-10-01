@@ -55,33 +55,34 @@ public class Main {
 
     public static void addCommands(){
 
-       commandHandler.commands.put("ping", new commandPing());
-       commandHandler.commands.put("kys", new commandKYS());
-       commandHandler.commands.put("clear", new commandClear());
-       commandHandler.commands.put("rip", new commandRIP());
-       commandHandler.commands.put("version", new commandVersion());
-       commandHandler.commands.put("help", new commandHelp());
-       commandHandler.commands.put("kick", new commandKick());
-       commandHandler.commands.put("ban", new commandBan());
-       commandHandler.commands.put("explode", new commandExplode());
-       commandHandler.commands.put("vote", new commandVote());
-       commandHandler.commands.put("medal", new commandMedal());
-       commandHandler.commands.put("status", new commandStatus());
-       commandHandler.commands.put("short", new commandShort());
-       commandHandler.commands.put("roles", new commandRoles());
-       commandHandler.commands.put("lmgtfy", new commandlmgtfy());
-       commandHandler.commands.put("userid", new commandUserid());
-       commandHandler.commands.put("servers", new commandServers());
-       commandHandler.commands.put("joinmessages", new commandJoinmessages());
-       commandHandler.commands.put("kms", new commandKMS());
-       commandHandler.commands.put("mute", new commandMute());
-       commandHandler.commands.put("unmute", new commandUnmute());
-       commandHandler.commands.put("serverinfo", new commandServerInfo());
-       commandHandler.commands.put("userinfo", new commandUserInfo());
-       commandHandler.commands.put("music", new Music());
-       commandHandler.commands.put("m", new Music());
-       commandHandler.commands.put("addrole", new commandAddrole());
-       commandHandler.commands.put("removerole", new commandRemoverole());
+       commandHandler.registerCommand("ping", new commandPing());
+       commandHandler.registerCommand("kys", new commandKYS());
+       commandHandler.registerCommand("clear", new commandClear());
+       commandHandler.registerCommand("rip", new commandRIP());
+       commandHandler.registerCommand("version", new commandVersion());
+       commandHandler.registerCommand("help", new commandHelp());
+       commandHandler.registerCommand("kick", new commandKick());
+       commandHandler.registerCommand("ban", new commandBan());
+       commandHandler.registerCommand("explode", new commandExplode());
+       commandHandler.registerCommand("vote", new commandVote());
+       commandHandler.registerCommand("medal", new commandMedal());
+       commandHandler.registerCommand("status", new commandStatus());
+       commandHandler.registerCommand("short", new commandShort());
+       commandHandler.registerCommand("roles", new commandRoles());
+       commandHandler.registerCommand("lmgtfy", new commandlmgtfy());
+       commandHandler.registerCommand("userid", new commandUserid());
+       commandHandler.registerCommand("servers", new commandServers());
+       commandHandler.registerCommand("joinmessages", new commandJoinmessages());
+       commandHandler.registerCommand("kms", new commandKMS());
+       commandHandler.registerCommand("mute", new commandMute());
+       commandHandler.registerCommand("unmute", new commandUnmute());
+       commandHandler.registerCommand("serverinfo", new commandServerInfo());
+       commandHandler.registerCommand("userinfo", new commandUserInfo());
+       commandHandler.registerCommand("music", new Music());
+       commandHandler.registerCommand("m", new Music());
+       commandHandler.registerCommand("addrole", new commandAddrole());
+       commandHandler.registerCommand("removerole", new commandRemoverole());
+       commandHandler.registerCommand("log", new commandLog());
 
     }
 

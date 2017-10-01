@@ -5,6 +5,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.GuildController;
 import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
@@ -55,7 +56,7 @@ public class commandRemoverole implements Command {
 
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
-
+        commandLogger.logCommand("removerole", event);
     }
 
     @Override

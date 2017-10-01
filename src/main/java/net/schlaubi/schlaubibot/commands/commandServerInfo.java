@@ -3,7 +3,7 @@ package net.schlaubi.schlaubibot.commands;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 
 import java.awt.*;
 
@@ -51,7 +51,7 @@ public class commandServerInfo implements Command {
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '" + STATIC.prefix +"serverinfo' was executed by " + event.getAuthor().getName());
+        commandLogger.logCommand("serverinfo", event);
 
     }
 

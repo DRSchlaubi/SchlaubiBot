@@ -19,7 +19,6 @@ public class GuildMemberJoinListener extends ListenerAdapter {
         String enabled = MySQL.getValue(guild, "joinmessages");
         String channelid = MySQL.getValue(guild, "joinmessagechannel");
         String joinmessage = MySQL.getValue(guild, "joinmessage").replace("%user%", e.getUser().getAsMention()).replace("%guild%", guild.getName());
-
         if(!enabled.equals("0")) {
             TextChannel channel = guild.getTextChannelById(channelid);
             channel.sendTyping().queue();

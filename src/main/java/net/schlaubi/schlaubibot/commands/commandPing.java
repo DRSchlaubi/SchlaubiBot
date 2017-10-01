@@ -7,7 +7,7 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 
 import java.awt.*;
 
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 public class commandPing implements Command {
@@ -34,7 +34,7 @@ public class commandPing implements Command {
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '" + STATIC.prefix + "ping' was executed by " + event.getAuthor().getName());
+        commandLogger.logCommand("ping", event);
 
     }
 

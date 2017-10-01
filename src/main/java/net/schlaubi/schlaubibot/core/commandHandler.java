@@ -25,5 +25,8 @@ public class commandHandler {
         }
 
     }
+    public static void registerCommand(String invoke, Command command){
+        commands.put(invoke, command);
+    }
 
 }

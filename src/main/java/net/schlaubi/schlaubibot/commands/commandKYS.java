@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
@@ -44,7 +45,7 @@ public class commandKYS implements Command {
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '" + STATIC.prefix + "kys' was executed by " + event.getAuthor().getName());
+        commandLogger.logCommand("kys", event);
 
     }
 

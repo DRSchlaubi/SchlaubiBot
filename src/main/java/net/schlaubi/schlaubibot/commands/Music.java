@@ -18,6 +18,7 @@ import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.Color;
@@ -417,7 +418,7 @@ public class Music implements Command {
     @Override
     public void executed(boolean sucess, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '" + STATIC.prefix + "music' was executed by " + event.getAuthor().getName());
+        commandLogger.logCommand("music", event);
 
     }
 
@@ -429,11 +430,11 @@ public class Music implements Command {
                 "`  " + STATIC.prefix + "music stop  `  -  Stops the queue\n" +
                 "`  " + STATIC.prefix + "music now  `  -  Shows information about the current song\n" +
                 "`  " + STATIC.prefix + "music pause/resume  `  -  Pauses/resumes a song\n" +
-                "`  " + STATIC.prefix + "music volume <volume> ` - Changes the volume of the bot" +
-                "`  " + STATIC.prefix + "music shuffle` - (Shuffles the queue)" +
-                "`  " + STATIC.prefix + "music disconnect` - (Let the Bot disconnect)" +
-                "`  " + STATIC.prefix + "music skip [number of songs] - (Skips the specified amount of songs)" +
-                "`  " + STATIC.prefix + "music queue - (Shows the queue)"
+                "`  " + STATIC.prefix + "music volume <volume> ` - Changes the volume of the bot\n" +
+                "`  " + STATIC.prefix + "music shuffle` - (Shuffles the queue)\n" +
+                "`  " + STATIC.prefix + "music disconnect` - (Let the Bot disconnect)\n" +
+                "`  " + STATIC.prefix + "music skip` [number of songs] - (Skips the specified amount of songs)\n" +
+                "`  " + STATIC.prefix + "music queue` - (Shows the queue)"
                 ;
     }
 }

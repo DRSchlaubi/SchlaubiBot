@@ -10,6 +10,7 @@ import static  com.rosaloves.bitlyj.Bitly.*;
 
 import net.schlaubi.schlaubibot.util.SECRETS;
 import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
@@ -50,8 +51,7 @@ public class commandlmgtfy implements Command {
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '" + STATIC.prefix + "lmgtfy' was executed by " + event.getAuthor().getName());
-
+        commandLogger.logCommand("lmgtfy", event);
 
     }
 

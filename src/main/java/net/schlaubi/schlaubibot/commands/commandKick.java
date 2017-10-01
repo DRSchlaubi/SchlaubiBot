@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 import net.schlaubi.schlaubibot.core.permissionHandler;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 public class commandKick implements Command {
@@ -62,8 +62,7 @@ public class commandKick implements Command {
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '" + STATIC.prefix + "-kick' was executed by " + event.getAuthor().getName());
-
+        commandLogger.logCommand("kick", event);
 
     }
 

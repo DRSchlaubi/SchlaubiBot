@@ -5,7 +5,7 @@ import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 
 public class commandKMS implements Command{
 
@@ -31,7 +31,7 @@ public class commandKMS implements Command{
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '" + STATIC.prefix + "kms' was executed by " +  event.getAuthor().getName());
+        commandLogger.logCommand("kms", event);
 
     }
 

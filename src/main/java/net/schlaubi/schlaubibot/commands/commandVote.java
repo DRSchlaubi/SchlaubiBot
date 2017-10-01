@@ -9,6 +9,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.ErrorResponseException;
 import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
@@ -428,7 +429,7 @@ public class commandVote implements Command, Serializable {
 
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
-        System.out.println("[INFO] Command '" + STATIC.prefix + "vote' was executed by " + event.getAuthor().getName());
+        commandLogger.logCommand("vote", event);
 
     }
 

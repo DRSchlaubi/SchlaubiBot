@@ -2,6 +2,7 @@ package net.schlaubi.schlaubibot.commands;
 
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
@@ -33,6 +34,8 @@ public class commandServers implements Command {
 
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
+
+        commandLogger.logCommand("servers", event);
 
     }
 

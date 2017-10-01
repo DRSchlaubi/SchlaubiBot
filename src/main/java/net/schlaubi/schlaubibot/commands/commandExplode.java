@@ -3,7 +3,7 @@ package net.schlaubi.schlaubibot.commands;
 import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
@@ -84,7 +84,7 @@ public class commandExplode implements Command {
                                     new Timer().schedule(new TimerTask() {
                                         @Override
                                         public void run() {
-                                            mymsg.editMessage("This message will explode in `1` seccond").complete(); //siehe oben
+                                            mymsg.editMessage("This message will explode in `1` seccond").complete();
                                             new Timer().schedule(new TimerTask() {
                                                 @Override
                                                 public void run() {
@@ -107,9 +107,7 @@ public class commandExplode implements Command {
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        System.out.println("[INFO] Command '" + STATIC.prefix + "explode' was executed by " + event.getAuthor().getName());
-
-
+        commandLogger.logCommand("explode", event);
 
     }
 

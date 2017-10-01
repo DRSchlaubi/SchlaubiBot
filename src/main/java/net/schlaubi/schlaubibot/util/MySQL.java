@@ -18,10 +18,10 @@ public class MySQL {
                 String username = STATIC.USERNAME;
 
                 connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database, username, password);
-                System.out.println("[KuhBlungBot] MySQL connected");
+                System.out.println("[SchlaubiBot] MySQL connected");
 
             } catch (SQLException e) {
-                System.out.println("[KuhBlungBot] MySQL connection failed");
+                System.out.println("[SchlaubiBot] MySQL connection failed");
                 e.printStackTrace();
             }
         }
@@ -46,7 +46,7 @@ public class MySQL {
 
     public static void createServer(Guild guild){
         try{
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO `schlaubibot`(`joinmessage`, `leavemessage`, `joinmessages`, `ownerid`, `serverid`,`joinmessagechannel`) VALUES ('Welcome %user% on %guild%', 'God bye **%user%! We had a nice time with you', '1', ?, ?, ?)");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO `schlaubibot`(`joinmessage`, `leavemessage`, `joinmessages`, `ownerid`, `serverid`,`joinmessagechannel`,`logchanel`) VALUES ('Welcome %user% on %guild%', 'Good bye **%user%! We had a nice time with you', '1', ?, ?, ?,'0')");
             ps.setString(1, guild.getOwner().getUser().getId());
             ps.setString(2, guild.getId());
             ps.setString(3, guild.getDefaultChannel().getId());
