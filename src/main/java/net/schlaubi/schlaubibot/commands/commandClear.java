@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -35,6 +35,8 @@ public class commandClear implements Command {
         User author = event.getAuthor();
         final Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
+        Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
 
         channel.sendTyping().queue();
         message.delete().queue();
@@ -49,7 +51,7 @@ public class commandClear implements Command {
         }
             if(args.length < 1){
 
-                embedSender.sendEmbed("Usage: `" + STATIC.prefix + "clear <count>`", channel, Color.red);
+                embedSender.sendEmbed("Usage: `" + prefix + "clear <count>`", channel, Color.red);
 
             } else {
                 int numb = getInt(args[0]) +1;

@@ -26,6 +26,7 @@ public class commandSettings implements Command {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         message.delete().queue();
         channel.sendTyping().queue();
 
@@ -79,7 +80,7 @@ public class commandSettings implements Command {
                         break;
                     case "channel":
                         if (!(message.getMentionedChannels().size() > 0)) {
-                            embedSender.sendEmbed("Usage : `" + STATIC.prefix + "joinmessages channel <#Channel>`", channel, Color.red);
+                            embedSender.sendEmbed("Usage : `" + prefix + "joinmessages channel <#Channel>`", channel, Color.red);
                             return;
                         }
                         MySQL.updateValue(guild, "logchannel", message.getMentionedChannels().get(0).getId());
@@ -110,7 +111,7 @@ public class commandSettings implements Command {
 
                     case "channel":
                         if(!(message.getMentionedChannels().size() > 0)){
-                            embedSender.sendEmbed("Usage : `" + STATIC.prefix + "joinmessages channel <#Channel>`", channel, Color.red);
+                            embedSender.sendEmbed("Usage : `" + prefix + "joinmessages channel <#Channel>`", channel, Color.red);
                             return;
                         }
 
@@ -121,7 +122,7 @@ public class commandSettings implements Command {
 
                     case "join":
                         if(!(args.length > 0)){
-                            embedSender.sendEmbed("Usage : `" + STATIC.prefix + "joinmessages join <Hello %user% on %guild%>`", channel, Color.red);
+                            embedSender.sendEmbed("Usage : `" + prefix + "joinmessages join <Hello %user% on %guild%>`", channel, Color.red);
                             return;
                         }
 
@@ -133,7 +134,7 @@ public class commandSettings implements Command {
                         break;
                     case "leave":
                         if(!(args.length > 0)){
-                            embedSender.sendEmbed("Usage : `" + STATIC.prefix + "joinmessages leave <Bye %user%>`", channel, Color.red);
+                            embedSender.sendEmbed("Usage : `" + prefix + "joinmessages leave <Bye %user%>`", channel, Color.red);
                             return;
                         }
 
@@ -151,7 +152,7 @@ public class commandSettings implements Command {
                     return;
                 }
                 if(args[1].equals("reset")){
-                    MySQL.updateValue(guild, "prefix", STATIC.prefix);
+                    MySQL.updateValue(guild, "prefix", prefix);
                     embedSender.sendEmbed(":repeat: Successfully restored default prefix", channel, Color.green);
                     return;
                 }

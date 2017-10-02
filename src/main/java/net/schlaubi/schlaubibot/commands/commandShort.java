@@ -1,18 +1,12 @@
 package net.schlaubi.schlaubibot.commands;
 
 import com.rosaloves.bitlyj.BitlyException;
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.PrivateChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import com.rosaloves.bitlyj.Url;
 import static com.rosaloves.bitlyj.Bitly.*;
 
-import net.schlaubi.schlaubibot.util.SECRETS;
-import net.schlaubi.schlaubibot.util.STATIC;
-import net.schlaubi.schlaubibot.util.commandLogger;
-import net.schlaubi.schlaubibot.util.embedSender;
+import net.schlaubi.schlaubibot.util.*;
 
 import java.awt.*;
 
@@ -27,6 +21,8 @@ public class commandShort implements Command {
         User author = event.getAuthor();
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
+        Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         channel.sendTyping().queue();
         message.delete().queue();
 
@@ -42,7 +38,7 @@ public class commandShort implements Command {
                 embedSender.sendEmbed(":warning: Please send an valid URL", channel, Color.red);
             }
         } else {
-            embedSender.sendEmbed("Usage: `" + STATIC.prefix + "short <longurl>`", channel, Color.red);
+            embedSender.sendEmbed("Usage: `" + prefix + "short <longurl>`", channel, Color.red);
         }
 
     }

@@ -1,9 +1,10 @@
 package net.schlaubi.schlaubibot.commands;
 
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -23,6 +24,8 @@ public class commandRIP implements Command {
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
         MessageChannel channel = event.getChannel();
+        Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         final Message message = event.getMessage();
 
         channel.sendTyping().queue();
@@ -55,7 +58,7 @@ public class commandRIP implements Command {
 
         } else {
             message.delete().queue();
-            embedSender.sendEmbed("Usage: `" + STATIC.prefix + "rip <line1> <line2>`", channel, Color.red);
+            embedSender.sendEmbed("Usage: `" + prefix + "rip <line1> <line2>`", channel, Color.red);
         }
 
 

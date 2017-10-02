@@ -8,11 +8,13 @@ import net.dv8tion.jda.core.managers.GuildController;
 import java.awt.*;
 import java.util.List;
 
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 public class commandBan implements Command {
+
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
         return false;
@@ -24,6 +26,7 @@ public class commandBan implements Command {
         final Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         GuildController guildcon = new GuildController(event.getGuild());
         Member selfmember = guild.getSelfMember();
 
@@ -49,7 +52,7 @@ public class commandBan implements Command {
             }
 
         } else {
-            embedSender.sendEmbed("Usage `" + STATIC.prefix + "ban <@User>`", channel, Color.red);
+            embedSender.sendEmbed("Usage `" + prefix + "ban <@User>`", channel, Color.red);
         }
 
     }

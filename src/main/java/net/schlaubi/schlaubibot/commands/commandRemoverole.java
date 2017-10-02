@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.GuildController;
 import net.schlaubi.schlaubibot.core.permissionHandler;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -22,6 +22,7 @@ public class commandRemoverole implements Command {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         GuildController gcon = new GuildController(guild);
         channel.sendTyping().queue();
         message.delete().queue();
@@ -32,7 +33,7 @@ public class commandRemoverole implements Command {
         }
         if(args.length == 2){
             if(message.getMentionedUsers().size() == 0){
-                embedSender.sendEmbed("Usage: `" + STATIC.prefix + "addrole <@User> <role>`", channel, Color.red);
+                embedSender.sendEmbed("Usage: `" + prefix + "addrole <@User> <role>`", channel, Color.red);
                 return;
             }
 
@@ -49,7 +50,7 @@ public class commandRemoverole implements Command {
                 embedSender.sendEmbed(":warning: Sorry but this role don't exists", channel, Color.red);
             }
         } else {
-            embedSender.sendEmbed("Usage: `" + STATIC.prefix + "removerole <@User> <role>`", channel, Color.red);
+            embedSender.sendEmbed("Usage: `" + prefix + "removerole <@User> <role>`", channel, Color.red);
         }
 
     }

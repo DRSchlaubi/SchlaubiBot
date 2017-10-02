@@ -26,7 +26,7 @@ public class commandPing implements Command {
         message.delete().queue();
 
 
-        embedSender.sendEmbed("Mein Ping: `" + jda.getPing() + "`", channel, Color.CYAN);
+        embedSender.sendEmbed("My Ping: `" + jda.getPing() + "`", channel, Color.CYAN);
         }
 
 

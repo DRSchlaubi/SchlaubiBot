@@ -1,10 +1,8 @@
 package net.schlaubi.schlaubibot.commands;
 
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.PrivateChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
@@ -25,6 +23,8 @@ public class commandUserid implements Command {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         PrivateChannel privch = author.openPrivateChannel().complete();
+        Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         channel.sendTyping().queue();
         privch.sendTyping().queue();
         message.delete().queue();
@@ -38,7 +38,7 @@ public class commandUserid implements Command {
             }
 
         } else {
-            embedSender.sendEmbed("Usage: `" + STATIC.prefix + "userid <@User>`", channel, Color.red);
+            embedSender.sendEmbed("Usage: `" + prefix + "userid <@User>`", channel, Color.red);
         }
 
 

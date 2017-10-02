@@ -1,9 +1,10 @@
 package net.schlaubi.schlaubibot.commands;
 
+import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -22,6 +23,8 @@ public class commandKYS implements Command {
     public void action(String[] args, MessageReceivedEvent event) {
         MessageChannel channel = event.getChannel();
         final Message message = event.getMessage();
+        Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         channel.sendTyping().queue();
         message.delete().queue();
 
@@ -34,7 +37,7 @@ public class commandKYS implements Command {
             channel.sendMessage("```\n __________\n |         |\n |         0 <-- " + name.replace("@", "") + "\n |        /|\\ \n |        / \\ \n |\n |``` \n Kill yourselve `" + name.replace("@", "") + "`\n http://ropestore.org/?u=" + name.replace("@", "").replace(" ", "%20")).queue();
         } else {
 
-            embedSender.sendEmbed("Usage: `" + STATIC.prefix + "kys <name>`", channel, Color.red);
+            embedSender.sendEmbed("Usage: `" + prefix+ "kys <name>`", channel, Color.red);
 
         }
 

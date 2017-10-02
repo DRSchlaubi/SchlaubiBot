@@ -3,6 +3,7 @@ package net.schlaubi.schlaubibot.commands;
 import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -11,6 +12,7 @@ import java.util.Timer;
 import java.util.TimerTask;
 
 public class commandExplode implements Command {
+
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
         return false;
@@ -21,6 +23,8 @@ public class commandExplode implements Command {
         User author = event.getAuthor();
         final MessageChannel channel = event.getChannel();
         final Message message = event.getMessage();
+        Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         channel.sendTyping().queue();
         message.delete().queue();
         if(args.length > 0){

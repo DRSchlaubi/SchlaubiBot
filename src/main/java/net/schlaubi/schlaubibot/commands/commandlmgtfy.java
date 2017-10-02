@@ -1,17 +1,11 @@
 package net.schlaubi.schlaubibot.commands;
 
-import net.dv8tion.jda.core.entities.Message;
-import net.dv8tion.jda.core.entities.MessageChannel;
-import net.dv8tion.jda.core.entities.PrivateChannel;
-import net.dv8tion.jda.core.entities.User;
+import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import com.rosaloves.bitlyj.Url;
 import static  com.rosaloves.bitlyj.Bitly.*;
 
-import net.schlaubi.schlaubibot.util.SECRETS;
-import net.schlaubi.schlaubibot.util.STATIC;
-import net.schlaubi.schlaubibot.util.commandLogger;
-import net.schlaubi.schlaubibot.util.embedSender;
+import net.schlaubi.schlaubibot.util.*;
 
 import java.awt.*;
 
@@ -26,6 +20,8 @@ public class commandlmgtfy implements Command {
         User auhtor = event.getAuthor();
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
+        Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         PrivateChannel privch = auhtor.openPrivateChannel().complete();
         channel.sendTyping().queue();
         message.delete().queue();
@@ -43,7 +39,7 @@ public class commandlmgtfy implements Command {
 
 
         } else {
-            embedSender.sendEmbed("Usage: `" + STATIC.prefix + "lmgtfy <querry>`", channel, Color.red);
+            embedSender.sendEmbed("Usage: `" + prefix + "lmgtfy <querry>`", channel, Color.red);
         }
 
     }

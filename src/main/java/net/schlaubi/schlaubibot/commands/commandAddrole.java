@@ -4,6 +4,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.GuildController;
 import net.schlaubi.schlaubibot.core.permissionHandler;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
@@ -11,6 +12,8 @@ import net.schlaubi.schlaubibot.util.embedSender;
 import java.awt.*;
 
 public class commandAddrole implements Command {
+    private String prefix;
+
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
         return false;
@@ -18,6 +21,7 @@ public class commandAddrole implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
+        
         User author = event.getAuthor();
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
@@ -25,6 +29,8 @@ public class commandAddrole implements Command {
         GuildController gcon = new GuildController(guild);
         channel.sendTyping().queue();
         message.delete().queue();
+        
+
 
         if(permissionHandler.check(event)){
 
@@ -33,7 +39,7 @@ public class commandAddrole implements Command {
         }
         if(args.length == 2){
             if(message.getMentionedUsers().size() == 0){
-                embedSender.sendEmbed("Usage: `" + STATIC.prefix + "addrole <@User> <role>`", channel, Color.red);
+                embedSender.sendEmbed("Usage: `" + prefix + "addrole <@User> <role>`", channel, Color.red);
                 return;
             }
 
@@ -50,7 +56,7 @@ public class commandAddrole implements Command {
                 embedSender.sendEmbed(":warning: Sorry but this role don't exists", channel, Color.red);
             }
         } else {
-            embedSender.sendEmbed("Usage: `" + STATIC.prefix + "addrole <@User> <role>`", channel, Color.red);
+            embedSender.sendEmbed("Usage: `" + prefix + "addrole <@User> <role>`", channel, Color.red);
         }
 
     }

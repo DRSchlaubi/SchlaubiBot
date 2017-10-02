@@ -24,6 +24,7 @@ public class commandRoles implements Command {
         message.delete().queue();
         Guild guild = event.getGuild();
 
+
         List<Role> roles = guild.getRoles();
         String rolelout = "";
         for(Role role : roles){

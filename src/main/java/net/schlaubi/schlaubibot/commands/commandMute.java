@@ -4,7 +4,7 @@ import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -21,6 +21,7 @@ public class commandMute implements Command{
     public void action(String[] args, MessageReceivedEvent event) {
         User author = event.getAuthor();
         Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         TextChannel channel = event.getTextChannel();
         Message message = event.getMessage();
         channel.sendTyping().queue();
@@ -45,7 +46,7 @@ public class commandMute implements Command{
                             channel.getPermissionOverride(member).getManager().deny(Permission.MESSAGE_WRITE).complete();
                             embedSender.sendEmbed(":white_check_mark: Succesfully muted " + user.getAsMention(), channel, Color.green);
                         } else {
-                            embedSender.sendEmbed(":warning: This user is already muted use `" + STATIC.prefix + "unmute` to unmute", channel, Color.red);
+                            embedSender.sendEmbed(":warning: This user is already muted use `" + prefix + "unmute` to unmute", channel, Color.red);
                         }
                     } else {
                         embedSender.sendEmbed(":warning: Can't mute" + user.getAsMention() + " he's an admin!", channel, Color.red);
@@ -55,7 +56,7 @@ public class commandMute implements Command{
 
         } else {
 
-                embedSender.sendEmbed("Usage: `" + STATIC.prefix + "mute <@User>` ", channel, Color.red);
+                embedSender.sendEmbed("Usage: `" + prefix + "mute <@User>` ", channel, Color.red);
             }
         }
 

@@ -9,10 +9,12 @@ import java.awt.*;
 import java.util.List;
 
 import net.schlaubi.schlaubibot.core.permissionHandler;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 public class commandKick implements Command {
+
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
         return false;
@@ -24,6 +26,7 @@ public class commandKick implements Command {
         final Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         GuildController guildcon = new GuildController(event.getGuild());
 
         channel.sendTyping().queue();
