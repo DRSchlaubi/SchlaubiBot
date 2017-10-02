@@ -37,6 +37,7 @@ public class Main {
         builder.addEventListener(new GuildMemberLeaveListener());
         builder.addEventListener(new readyListener());
         builder.addEventListener(new ReactionListener());
+        builder.addEventListener(new MentionListener());
         addCommands();
 
 
@@ -72,7 +73,6 @@ public class Main {
        commandHandler.registerCommand("lmgtfy", new commandlmgtfy());
        commandHandler.registerCommand("userid", new commandUserid());
        commandHandler.registerCommand("servers", new commandServers());
-       commandHandler.registerCommand("joinmessages", new commandJoinmessages());
        commandHandler.registerCommand("kms", new commandKMS());
        commandHandler.registerCommand("mute", new commandMute());
        commandHandler.registerCommand("unmute", new commandUnmute());
@@ -82,7 +82,7 @@ public class Main {
        commandHandler.registerCommand("m", new Music());
        commandHandler.registerCommand("addrole", new commandAddrole());
        commandHandler.registerCommand("removerole", new commandRemoverole());
-       commandHandler.registerCommand("log", new commandLog());
+       commandHandler.registerCommand("settings", new commandSettings());
 
     }
 

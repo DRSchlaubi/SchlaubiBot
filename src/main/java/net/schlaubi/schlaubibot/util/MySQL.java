@@ -46,10 +46,11 @@ public class MySQL {
 
     public static void createServer(Guild guild){
         try{
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO `schlaubibot`(`joinmessage`, `leavemessage`, `joinmessages`, `ownerid`, `serverid`,`joinmessagechannel`,`logchanel`) VALUES ('Welcome %user% on %guild%', 'Good bye **%user%! We had a nice time with you', '1', ?, ?, ?,'0')");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO `schlaubibot`(`joinmessage`, `leavemessage`, `joinmessages`, `ownerid`, `serverid`,`joinmessagechannel`,`logchannel`,`prefix`) VALUES ('Welcome %user% on %guild%', 'Good bye **%user%! We had a nice time with you', '1', ?, ?, ?,'0',?)");
             ps.setString(1, guild.getOwner().getUser().getId());
             ps.setString(2, guild.getId());
             ps.setString(3, guild.getDefaultChannel().getId());
+            ps.setString(4, STATIC.prefix);
             ps.execute();
         } catch (SQLException e){
             e.printStackTrace();

@@ -1,6 +1,7 @@
 package net.schlaubi.schlaubibot.core;
 
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.STATIC;
 
 import java.util.ArrayList;
@@ -8,8 +9,9 @@ import java.util.ArrayList;
 public class commandParser {
 
     public commandContainer parse(String raw, MessageReceivedEvent event) {
+        String prefix = MySQL.getValue(event.getGuild(), "prefix");
 
-        String beheaded = raw.replaceFirst(STATIC.prefix, "");
+        String beheaded = raw.replaceFirst(prefix, "");
         String[] splitBeheaded = beheaded.split(" ");
         String invoke = splitBeheaded[0];
         ArrayList<String> split = new ArrayList<>();
