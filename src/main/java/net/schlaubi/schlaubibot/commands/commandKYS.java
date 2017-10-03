@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -24,7 +24,7 @@ public class commandKYS implements Command {
         MessageChannel channel = event.getChannel();
         final Message message = event.getMessage();
         Guild guild = event.getGuild();
-        String prefix = STATIC.prefix;
+        String prefix = MySQL.getValue(guild, "prefix");
         channel.sendTyping().queue();
         message.delete().queue();
 

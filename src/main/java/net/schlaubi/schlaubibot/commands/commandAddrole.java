@@ -13,6 +13,7 @@ import java.awt.*;
 
 public class commandAddrole implements Command {
     private String prefix;
+    private String query = "";
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
@@ -29,6 +30,7 @@ public class commandAddrole implements Command {
         GuildController gcon = new GuildController(guild);
         channel.sendTyping().queue();
         message.delete().queue();
+        this.prefix = MySQL.getValue(guild, "prefix");
         
 
 
@@ -37,7 +39,7 @@ public class commandAddrole implements Command {
             embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
             return;
         }
-        if(args.length == 2){
+        if(args.length >= 2){
             if(message.getMentionedUsers().size() == 0){
                 embedSender.sendEmbed("Usage: `" + prefix + "addrole <@User> <role>`", channel, Color.red);
                 return;
@@ -45,13 +47,16 @@ public class commandAddrole implements Command {
 
             Member member = guild.getMember(message.getMentionedUsers().get(0));
             try {
-                Role role = guild.getRolesByName(args[1], true).get(0);
+                for(int i = 1; i < args.length; i++){
+                    query += " " + args[i];
+                }
+                Role role = guild.getRolesByName(query.replaceFirst(" ", ""), true).get(0);
                 if (member.getRoles().contains(role)) {
                     embedSender.sendEmbed(":warning: This user already has this role", channel, Color.red);
                     return;
                 }
                 gcon.addRolesToMember(member, role).queue();
-                embedSender.sendEmbed(":white_check_mark: Succesfully assigned role `" + args[1] + "` to " + member.getAsMention(), channel, Color.green);
+                embedSender.sendEmbed(":white_check_mark: Succesfully assigned role `" + query.replaceFirst(" ", "") + "` to " + member.getAsMention(), channel, Color.green);
             } catch (IndexOutOfBoundsException e){
                 embedSender.sendEmbed(":warning: Sorry but this role don't exists", channel, Color.red);
             }

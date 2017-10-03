@@ -21,7 +21,7 @@ public class commandlmgtfy implements Command {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        String prefix = STATIC.prefix;
+        String prefix = MySQL.getValue(guild, "prefix");
         PrivateChannel privch = auhtor.openPrivateChannel().complete();
         channel.sendTyping().queue();
         message.delete().queue();
@@ -34,7 +34,7 @@ public class commandlmgtfy implements Command {
             String url = "http://lmgtfy.com/?iie=1&q=" + query.replace( " ", "%20");
             Url bitlink = as(STATIC.BITLYUSERNAME, SECRETS.bitlytoken).call(shorten(url));
 
-            embedSender.sendEmbed("Link created pleas send the following link to the person which needs help " + bitlink.getShortUrl(), channel, Color.green);
+            embedSender.sendEmbed("Link created please send the following link to the person which needs help " + bitlink.getShortUrl(), channel, Color.green);
             embedSender.sendPermanentEmbed("Link created pleas send the following link to the person which needs help " + bitlink.getShortUrl(), privch, Color.green);
 
 

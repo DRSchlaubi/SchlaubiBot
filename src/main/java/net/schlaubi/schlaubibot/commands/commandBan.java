@@ -26,7 +26,7 @@ public class commandBan implements Command {
         final Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        String prefix = STATIC.prefix;
+        String prefix = MySQL.getValue(guild, "prefix");
         GuildController guildcon = new GuildController(event.getGuild());
         Member selfmember = guild.getSelfMember();
 

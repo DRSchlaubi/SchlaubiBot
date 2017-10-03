@@ -9,7 +9,7 @@ import java.awt.*;
 import java.util.List;
 
 
-import net.schlaubi.schlaubibot.util.STATIC;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -36,7 +36,7 @@ public class commandClear implements Command {
         final Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        String prefix = STATIC.prefix;
+        String prefix = MySQL.getValue(guild, "prefix");
 
         channel.sendTyping().queue();
         message.delete().queue();

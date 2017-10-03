@@ -4,6 +4,7 @@ import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
@@ -21,7 +22,7 @@ public class commandMute implements Command{
     public void action(String[] args, MessageReceivedEvent event) {
         User author = event.getAuthor();
         Guild guild = event.getGuild();
-        String prefix = STATIC.prefix;
+        String prefix = MySQL.getValue(guild, "prefix");
         TextChannel channel = event.getTextChannel();
         Message message = event.getMessage();
         channel.sendTyping().queue();

@@ -18,6 +18,8 @@ import net.schlaubi.schlaubibot.util.SECRETS;
 import net.schlaubi.schlaubibot.util.STATIC;
 
 import javax.security.auth.login.LoginException;
+import java.util.Timer;
+import java.util.TimerTask;
 
 
 public class Main {
@@ -40,6 +42,8 @@ public class Main {
         builder.addEventListener(new MentionListener());
         builder.addEventListener(new GuildJoinListener());
         addCommands();
+
+
 
 
         try {
@@ -88,6 +92,7 @@ public class Main {
        commandHandler.registerCommand("restart", new commandRestart());
        commandHandler.registerCommand("gif", new commandGif());
        commandHandler.registerCommand("speedtest", new commandSpeedtest());
+       commandHandler.registerCommand("bug", new commandBug());
 
     }
 

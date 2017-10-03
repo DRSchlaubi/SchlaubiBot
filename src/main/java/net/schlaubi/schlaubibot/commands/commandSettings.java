@@ -26,7 +26,7 @@ public class commandSettings implements Command {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        String prefix = STATIC.prefix;
+        String prefix = MySQL.getValue(guild, "prefix");
         message.delete().queue();
         channel.sendTyping().queue();
 
