@@ -38,6 +38,7 @@ public class Main {
         builder.addEventListener(new readyListener());
         builder.addEventListener(new ReactionListener());
         builder.addEventListener(new MentionListener());
+        builder.addEventListener(new GuildJoinListener());
         addCommands();
 
 
@@ -83,6 +84,10 @@ public class Main {
        commandHandler.registerCommand("addrole", new commandAddrole());
        commandHandler.registerCommand("removerole", new commandRemoverole());
        commandHandler.registerCommand("settings", new commandSettings());
+       commandHandler.registerCommand("terminate", new commandTerminate());
+       commandHandler.registerCommand("restart", new commandRestart());
+       commandHandler.registerCommand("gif", new commandGif());
+       commandHandler.registerCommand("speedtest", new commandSpeedtest());
 
     }
 

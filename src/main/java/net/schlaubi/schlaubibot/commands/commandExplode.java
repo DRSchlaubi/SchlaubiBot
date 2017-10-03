@@ -3,7 +3,7 @@ package net.schlaubi.schlaubibot.commands;
 import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.MySQL;
+import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -24,7 +24,7 @@ public class commandExplode implements Command {
         final MessageChannel channel = event.getChannel();
         final Message message = event.getMessage();
         Guild guild = event.getGuild();
-        String prefix = MySQL.getValue(guild, "prefix");
+        String prefix = STATIC.prefix;
         channel.sendTyping().queue();
         message.delete().queue();
         if(args.length > 0){

@@ -22,7 +22,7 @@ public class commandShort implements Command {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        String prefix = MySQL.getValue(guild, "prefix");
+        String prefix = STATIC.prefix;
         channel.sendTyping().queue();
         message.delete().queue();
 

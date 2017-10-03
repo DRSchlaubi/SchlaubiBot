@@ -4,7 +4,7 @@ import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.GuildController;
 import net.schlaubi.schlaubibot.core.permissionHandler;
-import net.schlaubi.schlaubibot.util.MySQL;
+import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
@@ -22,7 +22,7 @@ public class commandRemoverole implements Command {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        String prefix = MySQL.getValue(guild, "prefix");
+        String prefix = STATIC.prefix;
         GuildController gcon = new GuildController(guild);
         channel.sendTyping().queue();
         message.delete().queue();

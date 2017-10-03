@@ -21,7 +21,7 @@ public class commandlmgtfy implements Command {
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
         Guild guild = event.getGuild();
-        String prefix = MySQL.getValue(guild, "prefix");
+        String prefix = STATIC.prefix;
         PrivateChannel privch = auhtor.openPrivateChannel().complete();
         channel.sendTyping().queue();
         message.delete().queue();

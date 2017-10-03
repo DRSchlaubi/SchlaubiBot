@@ -3,7 +3,7 @@ package net.schlaubi.schlaubibot.commands;
 import net.dv8tion.jda.core.EmbedBuilder;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
-import net.schlaubi.schlaubibot.util.MySQL;
+import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 
 import java.awt.*;
@@ -21,7 +21,7 @@ public class commandHelp implements Command {
         User author = event.getAuthor();
         Message message = event.getMessage();
         Guild guild = event.getGuild();
-        String prefix = MySQL.getValue(guild, "prefix");
+        String prefix = STATIC.prefix;
         PrivateChannel privch = author.openPrivateChannel().complete();
         channel.sendTyping().queue();
         privch.sendTyping().queue();

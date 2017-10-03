@@ -11,6 +11,7 @@ public class commandLogger {
 
     public static void logCommand(String command, MessageReceivedEvent event){
         Guild guild = event.getGuild();
+        String prefix = MySQL.getValue(guild, "prefix");
         String logchannel = MySQL.getValue(guild, "logchannel");
 
         if(logchannel.equals("0"))
@@ -18,7 +19,7 @@ public class commandLogger {
 
         TextChannel channel = guild.getTextChannelById(logchannel);
         channel.sendTyping().queue();
-        embedSender.sendPermanentEmbed("Command `" + STATIC.prefix +  command + "` was executed by **" + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator() + "**", channel, Color.cyan);
+        embedSender.sendPermanentEmbed("Command `" + prefix +  command + "` was executed by **" + event.getAuthor().getName() + "#" + event.getAuthor().getDiscriminator() + "**", channel, Color.cyan);
 
     }
 }

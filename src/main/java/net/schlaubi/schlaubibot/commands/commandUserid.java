@@ -24,7 +24,7 @@ public class commandUserid implements Command {
         MessageChannel channel = event.getChannel();
         PrivateChannel privch = author.openPrivateChannel().complete();
         Guild guild = event.getGuild();
-        String prefix = MySQL.getValue(guild, "prefix");
+        String prefix = STATIC.prefix;
         channel.sendTyping().queue();
         privch.sendTyping().queue();
         message.delete().queue();
