@@ -195,6 +195,9 @@ public class commandVote implements Command, Serializable {
 
         Poll poll = polls.get(event.getGuild());
 
+        if(!poll.pollmsg.equals(event.getMessageId()))
+            return;
+
         if(poll.votes.containsKey(event.getUser().getId())){
             embedSender.sendEmbed("Sorry, but you can only vote at once for a poll",event.getChannel(), Color.red);
             new Timer().schedule(new TimerTask() {
@@ -206,8 +209,7 @@ public class commandVote implements Command, Serializable {
             return;
         }
 
-        if(!poll.pollmsg.equals(event.getMessageId()))
-            return;
+
 
         PrivateChannel privch = event.getUser().openPrivateChannel().complete();
 
