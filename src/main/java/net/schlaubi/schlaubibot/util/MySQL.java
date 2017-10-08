@@ -1,6 +1,7 @@
 package net.schlaubi.schlaubibot.util;
 
 import net.dv8tion.jda.core.entities.Guild;
+import org.mockito.internal.matchers.Null;
 
 import java.sql.*;
 
@@ -50,7 +51,7 @@ public class MySQL {
             ps.setString(1, guild.getId());
             ResultSet rs = ps.executeQuery();
             return rs.next();
-        } catch (SQLException e) {
+        } catch (SQLException | NullPointerException e) {
             e.printStackTrace();
         }
         return  false;

@@ -4,7 +4,6 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.schlaubi.schlaubibot.core.commandHandler;
 import net.schlaubi.schlaubibot.util.MySQL;
-import net.schlaubi.schlaubibot.util.STATIC;
 
 
 public class commandListener extends ListenerAdapter {
