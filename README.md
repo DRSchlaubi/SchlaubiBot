@@ -1,8 +1,9 @@
 # SchlaubiBot
 Small Discord bot with some usefull tools
+**Speacial thanks: ** https://github.com/zekroTJA
 ###Klengan
 [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046)
-[![Uptime Robot ratio (7 days)](https://img.shields.io/uptimerobot/ratio/7/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046
+[![Uptime Robot ratio (7 days)](https://img.shields.io/uptimerobot/ratio/7/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046)
 <a href="https://schlb.pw/2xifVSF "><img src="https://github.com/zekroTJA/DiscordBot/blob/master/.websrc/add_to_discord.png?raw=true" width="300"/></a>
 
 ### Features
@@ -55,7 +56,7 @@ Command list
   - `::settings joinmessages channel <#Channel>` - Sets message channel
   - `::settings prefix <prefix/reset>`  -  Sets the server's prefix
   
-  **Speacial thanks: ** @zekroTJA
+
 Credits: 
 <br>https://github.com/DV8FromTheWorld/JDA
 <br>https://github.com/zekro
