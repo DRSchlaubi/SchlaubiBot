@@ -19,8 +19,6 @@ import net.schlaubi.schlaubibot.util.STATIC;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
-import java.util.Timer;
-import java.util.TimerTask;
 
 
 public class Main {

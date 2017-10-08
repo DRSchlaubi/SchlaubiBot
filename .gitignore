@@ -5,7 +5,8 @@
 /target/
 SchlaubiBot.iml
 dependency-reduced-pom.xml
-pom.xml
 src/test/
 values/
 src/main/resources/
+secrets.json
+src/main/java/net/schlaubi/schlaubibot/util/SECRETS.java
