@@ -9,4 +9,3 @@ src/test/
 values/
 src/main/resources/
 secrets.json
-src/main/java/net/schlaubi/schlaubibot/util/SECRETS.java
