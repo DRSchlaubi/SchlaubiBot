@@ -18,6 +18,7 @@ import net.schlaubi.schlaubibot.util.SECRETS;
 import net.schlaubi.schlaubibot.util.STATIC;
 
 import javax.security.auth.login.LoginException;
+import java.io.File;
 import java.util.Timer;
 import java.util.TimerTask;
 
@@ -28,6 +29,8 @@ public class Main {
 
     public static void main(String[] Args){
         System.out.println("[SchlaubiBot] Starting bot...");
+        if(!new File("secrets.json").exists())
+            Configuration.check_config();
         MySQL.connect();
         JDABuilder builder = new JDABuilder(AccountType.BOT);
         builder.setToken(SECRETS.token);

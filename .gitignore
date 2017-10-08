@@ -9,4 +9,3 @@ pom.xml
 src/test/
 values/
 src/main/resources/
-/src/main/java/net/schlaubi/schlaubibot/util/SECRETS.java

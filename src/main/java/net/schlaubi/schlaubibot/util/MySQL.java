@@ -11,17 +11,17 @@ public class MySQL {
 
     public static void connect(){
         if(!isConnected()){
+            String host = STATIC.HOST;
+            String port = STATIC.PORT;
+            String database = STATIC.DATABASE;
+            String username = STATIC.USERNAME;
             try{
-                String host = STATIC.HOST;
-                String port = STATIC.PORT;
-                String database = STATIC.DATABASE;
-                String username = STATIC.USERNAME;
+
 
                 connection = DriverManager.getConnection("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&autoReconnectForPools=true&interactiveClient=true&characterEncoding=UTF-8", username, password);
-                System.out.println("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&autoReconnectForPools=true&interactiveClient=true&characterEncoding=UTF-8");
                 System.out.println("[SchlaubiBot] MySQL connected");
 
-            } catch (SQLException e) {
+            } catch (SQLException e) {System.out.println("jdbc:mysql://" + host + ":" + port + "/" + database + "?autoReconnect=true&autoReconnectForPools=true&interactiveClient=true&characterEncoding=UTF-8");
                 System.out.println("[SchlaubiBot] MySQL connection failed");
                 e.printStackTrace();
             }
