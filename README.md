@@ -4,7 +4,10 @@ Small Discord bot with some usefull tools
 ### Get it!
 [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046) &nbsp;
 [![Uptime Robot ratio (7 days)](https://img.shields.io/uptimerobot/ratio/7/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046)
-<a href="https://schlb.pw/2xifVSF "><img src="https://github.com/zekroTJA/DiscordBot/blob/master/.websrc/add_to_discord.png?raw=true" width="300"/></a>
+
+
+<a href="https://schlb.pw/2xifVSF ">
+<img src="https://github.com/zekroTJA/DiscordBot/blob/master/.websrc/add_to_discord.png?raw=true" width="300"/></a>
 
 ### Features
 __**NOTICE**__
