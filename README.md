@@ -1,13 +1,14 @@
 # SchlaubiBot
 Small Discord bot with some usefull tools
-**Speacial thanks: ** https://github.com/zekroTJA
+**Speacial thanks:** https://github.com/zekroTJA and https://github.com/max95812
 ### Get it!
 [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046) &nbsp;
 [![Uptime Robot ratio (7 days)](https://img.shields.io/uptimerobot/ratio/7/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046)
 
-
 <a href="https://schlb.pw/2xifVSF ">
 <img src="https://github.com/zekroTJA/DiscordBot/blob/master/.websrc/add_to_discord.png?raw=true" width="300"/></a>
+
+or selhost the bot https://github.com/DRSchlaubi/SchlaubiBot/wiki/Selfhosting
 
 ### Features
 __**NOTICE**__
