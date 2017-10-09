@@ -4,12 +4,16 @@ import net.dv8tion.jda.core.AccountType;
 import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.JDABuilder;
 import net.dv8tion.jda.core.exceptions.RateLimitedException;
+import net.schlaubi.schlaubibot.util.SECRETS;
+import net.schlaubi.schlaubibot.util.STATIC;
 import org.json.JSONException;
 import org.json.JSONObject;
 import org.json.JSONTokener;
 
 import javax.security.auth.login.LoginException;
 import java.io.*;
+import java.sql.Connection;
+import java.sql.DriverManager;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -22,7 +26,7 @@ public class Configuration {
 
     private static final String DEFAULT_CONFIG_FILE = "config.json";
 
-    /* getting input */
+     /* getting input */
     private static final BufferedReader sys_in;
     static {
         InputStreamReader isr = new InputStreamReader(System.in);
@@ -33,8 +37,7 @@ public class Configuration {
     private static Map<String, Entry> entryMap = new HashMap<>();
 
     private static boolean FLAG_RECONFIG = false;
-    private static boolean FLAG_PROMPT_TOKEN = false;
-    private static boolean FLAG_PROMPT_DB_PASS = false;
+     private static boolean FLAG_PROMPT_DB_PASS = false;
     private static boolean FLAG_PROMPT_BITLY = false;
     private static boolean FLAG_PROMPT_GIPHY = false;
 
@@ -88,7 +91,7 @@ public class Configuration {
         }
     }
 
-    private static String prompt(String req) {
+    public static String prompt(String req) {
         String token;
 
         /* prompt for token */
@@ -159,28 +162,29 @@ public class Configuration {
         return false;
     }
 
-    public static void check_config() {
+    public static void create_config() {
         System.out.println("Hey I am the SUPERCOOL Setup of the SchlaubiBot \nThanks to https://github.com/max95812 for helping Schlaubi to create me");
         System.out.println("First of all we start with the Discord Bot token you can create one here https://schlb.pw/2wGGJIX");
         while (true) {
                 String token = prompt("token");
                 set("token", token);
                 System.out.println("Perfect now you must create an MySQL Database and import this .sql file (https://schlb.pw/2wFJxGo) ");
-                String db_pass = prompt("database password");
-                set("db_pass", db_pass);
-                String db_user = prompt("database user");
-                set("db_user", db_user);
-                String db_name = prompt("database name");
-                set("db_name", db_name);
-                String db_host = prompt("database host");
-                set("db_host", db_host);
-                String db_port = prompt("database port");
-                set("db_port", db_port);
-                System.out.println("YEAHHHH i saved you MySQL information and will test it when this setup is finished");
-                String giphykey = prompt("Giphy api key (https://schlb.pw/2z99orY)");
-                set("giphykey", giphykey);
+                setupMySQL();
+                System.out.println("YEAHHHH i saved you MySQL information and can connect to your MySQL DB");
+                String giphykey = prompt("Giphy api key (https://schlb.pw/2z99orY) (Leave blank to disable command");
+                if(giphykey.equals(""))
+                    set("giphykey", "disabled");
+                else
+                    set("giphykey", giphykey);
                 String bitlytoken = prompt("Bitly api key (https://schlb.pw/2z7Cisj)");
-                set("bitlytoken", bitlytoken);
+                if (bitlytoken.equals("")) {
+                    set("bitlytoken", "disabled");
+                    set("bitlyuser", "disabled");
+                }else {
+                    set("bitlytoken", bitlytoken);
+                    String bitlyuser = prompt("Bitly username (https://schlb.pw/2z7Cisj)");
+                    set("bitlyuser", bitlyuser);
+                }
                 FLAG_RECONFIG = false;
 
 
@@ -188,6 +192,7 @@ public class Configuration {
             Entry e;
 
             e = get("token");
+            boolean FLAG_PROMPT_TOKEN;
             if(e == null) {
                 FLAG_PROMPT_TOKEN = true;
             } else {
@@ -210,8 +215,32 @@ public class Configuration {
         }
     }
 
+     private static void setupMySQL() {
+         String db_pass = prompt("database password");
+         set("db_pass", db_pass);
+         String db_user = prompt("database user");
+         set("db_user", db_user);
+         String db_name = prompt("database name");
+         set("db_name", db_name);
+         String db_host = prompt("database host");
+         set("db_host", db_host);
+         String db_port = prompt("database port");
+         set("db_port", db_port);
+         try {
+             Connection connection = DriverManager.getConnection("jdbc:mysql://" + db_host + ":" + db_port + "/" + db_name + "?autoReconnect=true&autoReconnectForPools=true&interactiveClient=true&characterEncoding=UTF-8", db_user, db_pass);
+             connection.close();
+         } catch (Exception e){
+             System.out.println("[SchlaubiBot] MySQL Configuration invalid");
+             setupMySQL();
+         }
+     }
+    public static void check_config(){
+        if(SECRETS.password == null || STATIC.HOST == null || STATIC.DATABASE == null || STATIC.USERNAME == null || STATIC.PORT == null){
+            setupMySQL();
+        }
+    }
 
-    private static class Entry {
+     private static class Entry {
         static final int TYPE_OBJECT = 0;
         static final int TYPE_BOOL = 1;
         static final int TYPE_LONG = 2;

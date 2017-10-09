@@ -25,22 +25,25 @@ public class Main {
 
     public static JDABuilder builder;
 
-    public static void main(String[] Args){
+    public static void main(String[] args){
         System.out.println("[SchlaubiBot] Starting bot...");
-        MySQL.connect();
-        JDABuilder builder = new JDABuilder(AccountType.BOT);
-        builder.setToken(SECRETS.token);
-        builder.setAutoReconnect(true);
-        builder.setGame(Game.of(STATIC.game));
-        builder.setStatus(OnlineStatus.DO_NOT_DISTURB);
-        builder.addEventListener(new commandListener());
-        builder.addEventListener(new GuildMemberJoinListener());
-        builder.addEventListener(new GuildMemberLeaveListener());
-        builder.addEventListener(new readyListener());
-        builder.addEventListener(new ReactionListener());
-        builder.addEventListener(new MentionListener());
-        builder.addEventListener(new GuildJoinListener());
-        addCommands();
+        if(!new File("secrets.json").exists())
+            Configuration.create_config();
+            MySQL.connect();
+            JDABuilder builder = new JDABuilder(AccountType.BOT);
+            builder.setToken(SECRETS.token);
+            builder.setAutoReconnect(true);
+            builder.setGame(Game.of(STATIC.game));
+            builder.setStatus(OnlineStatus.DO_NOT_DISTURB);
+            builder.addEventListener(new commandListener());
+            builder.addEventListener(new GuildMemberJoinListener());
+            builder.addEventListener(new GuildMemberLeaveListener());
+            builder.addEventListener(new readyListener());
+            builder.addEventListener(new ReactionListener());
+            builder.addEventListener(new MentionListener());
+            builder.addEventListener(new GuildJoinListener());
+            addCommands();
+
 
 
 
@@ -49,6 +52,8 @@ public class Main {
             JDA jda = builder.buildBlocking();
         } catch (LoginException e) {
             System.out.println("INVALID KEY!!" );
+            String token = Configuration.prompt("token");
+            Configuration.set("token", token);
         } catch (InterruptedException | RateLimitedException e) {
             e.printStackTrace();
         }
