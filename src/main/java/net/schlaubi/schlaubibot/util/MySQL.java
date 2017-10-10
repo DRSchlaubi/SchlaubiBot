@@ -45,6 +45,11 @@ public class MySQL {
 
     public static boolean ifGuildExists(Guild guild){
         try {
+            Thread.sleep(500);
+        } catch (InterruptedException e) {
+            e.printStackTrace();
+        }
+        try {
             if(connection.isClosed())
                 connect();
             PreparedStatement ps = connection.prepareStatement("SELECT * FROM schlaubibot WHERE serverid = ?");

@@ -13,8 +13,6 @@ public class permissionHandler {
         for(Role r : event.getGuild().getMember(event.getAuthor()).getRoles()){
             if(Arrays.stream(STATIC.PERMS).parallel().anyMatch(r.getName()::contains))
                 return false;
-
-
         }
         return true;
     }
