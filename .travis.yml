@@ -16,7 +16,6 @@ deploy:
   file: "SchlaubiBot-1.0-SNAPSHOT.jar"
   skip_cleanup: true
   on:
-    tags: true
-  branches:
-   only:
-    - master
+   tags: false
+   all_branches: true
+    
