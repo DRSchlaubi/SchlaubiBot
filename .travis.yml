@@ -1,3 +1,11 @@
 language: java
 sudo: false
 script: mvn clean package
+deploy:
+  provider: releases
+  api_key: "aefddb9f5377f4da9360741d4b308d16b345bd3a"
+  file: "SchlaubiBot-1.0-SNAPSHOT.jar"
+  skip_cleanup: true
+  on:
+    tags: true
+
