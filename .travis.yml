@@ -9,7 +9,7 @@ before_deploy:
 deploy:
 deploy:
   provider: releases
-  api_key: "aefddb9f5377f4da9360741d4b308d16b345bd3a"
+  api_key: "eeb0d82f469f0dbf642a5ffa3bdc2d598ff43990"
   file: "SchlaubiBot-1.0-SNAPSHOT.jar"
   skip_cleanup: true
   on:
