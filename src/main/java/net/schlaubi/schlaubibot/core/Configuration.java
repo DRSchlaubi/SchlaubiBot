@@ -18,26 +18,26 @@ import java.util.HashMap;
 import java.util.Map;
 
 
- /*
-    Thanks to https://github.com/max95812
- */
+/*
+   Thanks to https://github.com/max95812
+*/
 public class Configuration {
 
 
     private static final String DEFAULT_CONFIG_FILE = "config.json";
 
-     /* getting input */
+    /* getting input */
     private static final BufferedReader sys_in;
     static {
         InputStreamReader isr = new InputStreamReader(System.in);
         sys_in = new BufferedReader(isr);
     }
 
-    private final File configFile;
+    private static File configFile;
     private static Map<String, Entry> entryMap = new HashMap<>();
 
     private static boolean FLAG_RECONFIG = false;
-     private static boolean FLAG_PROMPT_DB_PASS = false;
+    private static boolean FLAG_PROMPT_DB_PASS = false;
     private static boolean FLAG_PROMPT_BITLY = false;
     private static boolean FLAG_PROMPT_GIPHY = false;
 
@@ -133,7 +133,7 @@ public class Configuration {
         entryMap.put(k, new Entry(v));
     }
 
-    public void commit() throws IOException {
+    public static void commit() throws IOException {
         /* write token to file */
         JSONObject jsonobj = new JSONObject();
         entryMap.forEach((s, e) -> jsonobj.put(s, e.value));
@@ -166,26 +166,31 @@ public class Configuration {
         System.out.println("Hey I am the SUPERCOOL Setup of the SchlaubiBot \nThanks to https://github.com/max95812 for helping Schlaubi to create me");
         System.out.println("First of all we start with the Discord Bot token you can create one here https://schlb.pw/2wGGJIX");
         while (true) {
-                String token = prompt("token");
-                set("token", token);
-                System.out.println("Perfect now you must create an MySQL Database and import this .sql file (https://schlb.pw/2wFJxGo) ");
-                setupMySQL();
-                System.out.println("YEAHHHH i saved you MySQL information and can connect to your MySQL DB");
-                String giphykey = prompt("Giphy api key (https://schlb.pw/2z99orY) (Leave blank to disable command");
-                if(giphykey.equals(""))
-                    set("giphykey", "disabled");
-                else
-                    set("giphykey", giphykey);
-                String bitlytoken = prompt("Bitly api key (https://schlb.pw/2z7Cisj)");
-                if (bitlytoken.equals("")) {
-                    set("bitlytoken", "disabled");
-                    set("bitlyuser", "disabled");
-                }else {
-                    set("bitlytoken", bitlytoken);
-                    String bitlyuser = prompt("Bitly username (https://schlb.pw/2z7Cisj)");
-                    set("bitlyuser", bitlyuser);
-                }
-                FLAG_RECONFIG = false;
+            String token = prompt("token");
+            set("token", token);
+            System.out.println("Perfect now you must create an MySQL Database and import this .sql file (https://schlb.pw/2wFJxGo) ");
+            setupMySQL();
+            System.out.println("YEAHHHH i saved you MySQL information and can connect to your MySQL DB");
+            String giphykey = prompt("Giphy api key (https://schlb.pw/2z99orY) (Leave blank to disable command");
+            if(giphykey.equals(""))
+                set("giphykey", "disabled");
+            else
+                set("giphykey", giphykey);
+            String bitlytoken = prompt("Bitly api key (https://schlb.pw/2z7Cisj)");
+            if (bitlytoken.equals("")) {
+                set("bitlytoken", "disabled");
+                set("bitlyuser", "disabled");
+            }else {
+                set("bitlytoken", bitlytoken);
+                String bitlyuser = prompt("Bitly username (https://schlb.pw/2z7Cisj)");
+                set("bitlyuser", bitlyuser);
+            }
+            String musixmtachkey = prompt("MusixMatchKey (https://schlb.pw/2zoz1Iz)");
+            if(musixmtachkey.equals(""))
+                set("musixmatchkey", "disabled");
+            else
+                set("musixmatchkey", musixmtachkey);
+            FLAG_RECONFIG = false;
 
 
 
@@ -215,32 +220,34 @@ public class Configuration {
         }
     }
 
-     private static void setupMySQL() {
-         String db_pass = prompt("database password");
-         set("db_pass", db_pass);
-         String db_user = prompt("database user");
-         set("db_user", db_user);
-         String db_name = prompt("database name");
-         set("db_name", db_name);
-         String db_host = prompt("database host");
-         set("db_host", db_host);
-         String db_port = prompt("database port");
-         set("db_port", db_port);
-         try {
-             Connection connection = DriverManager.getConnection("jdbc:mysql://" + db_host + ":" + db_port + "/" + db_name + "?autoReconnect=true&autoReconnectForPools=true&interactiveClient=true&characterEncoding=UTF-8", db_user, db_pass);
-             connection.close();
-         } catch (Exception e){
-             System.out.println("[SchlaubiBot] MySQL Configuration invalid");
-             setupMySQL();
-         }
-     }
+    private static void setupMySQL() {
+        String db_pass = prompt("database password");
+        set("db_pass", db_pass);
+        String db_user = prompt("database user");
+        set("db_user", db_user);
+        String db_name = prompt("database name");
+        set("db_name", db_name);
+        String db_host = prompt("database host");
+        set("db_host", db_host);
+        String db_port = prompt("database port");
+        set("db_port", db_port);
+        try {
+            Connection connection = DriverManager.getConnection("jdbc:mysql://" + db_host + ":" + db_port + "/" + db_name + "?autoReconnect=true&autoReconnectForPools=true&interactiveClient=true&characterEncoding=UTF-8", db_user, db_pass);
+            connection.close();
+        } catch (Exception e){
+            System.out.println("[SchlaubiBot] MySQL Configuration invalid");
+            setupMySQL();
+        }
+    }
     public static void check_config(){
         if(SECRETS.password == null || STATIC.HOST == null || STATIC.DATABASE == null || STATIC.USERNAME == null || STATIC.PORT == null){
             setupMySQL();
         }
     }
 
-     private static class Entry {
+
+
+    private static class Entry {
         static final int TYPE_OBJECT = 0;
         static final int TYPE_BOOL = 1;
         static final int TYPE_LONG = 2;

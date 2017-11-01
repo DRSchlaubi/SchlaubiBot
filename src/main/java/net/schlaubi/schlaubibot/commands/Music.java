@@ -17,9 +17,14 @@ import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.Message;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
+import net.schlaubi.schlaubibot.util.SECRETS;
 import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
+import org.jmusixmatch.MusixMatch;
+import org.jmusixmatch.MusixMatchException;
+import org.jmusixmatch.entity.lyrics.Lyrics;
+import org.jmusixmatch.entity.track.Track;
 
 import java.awt.Color;
 import java.util.*;
@@ -33,7 +38,7 @@ public class Music implements Command {
     private static final int PLAYLIST_LIMIT = 1000;
     private static Guild guild;
     private static final AudioPlayerManager MANAGER = new DefaultAudioPlayerManager();
-    private static final Map<Guild, Map.Entry<AudioPlayer, TrackManager>> PLAYERS = new HashMap<>();
+    public static final Map<Guild, Map.Entry<AudioPlayer, TrackManager>> PLAYERS = new HashMap<>();
 
 
 
@@ -42,7 +47,7 @@ public class Music implements Command {
     }
 
 
-    private AudioPlayer createPlayer(Guild g) {
+    private static AudioPlayer createPlayer(Guild g) {
         AudioPlayer p = MANAGER.createPlayer();
         TrackManager m = new TrackManager(p);
         p.addListener(m);
@@ -57,19 +62,19 @@ public class Music implements Command {
     }
 
 
-    private boolean hasPlayer(Guild g) {
+    private static boolean hasPlayer(Guild g) {
         return PLAYERS.containsKey(g);
     }
 
 
-    private AudioPlayer getPlayer(Guild g) {
+    private static AudioPlayer getPlayer(Guild g) {
         if (hasPlayer(g))
             return PLAYERS.get(g).getKey();
         else
             return createPlayer(g);
     }
 
-    private TrackManager getManager(Guild g) {
+    private static TrackManager getManager(Guild g) {
         return PLAYERS.get(g).getValue();
     }
 
@@ -79,7 +84,7 @@ public class Music implements Command {
     }
 
 
-    private void loadTrack(String identifier, Member author, Message msg) {
+    private static void loadTrack(String identifier, Member author) {
 
         Guild guild = author.getGuild();
         getPlayer(guild);
@@ -162,6 +167,28 @@ public class Music implements Command {
         }, millis);
     }
 
+    private void getLyrics(AudioTrackInfo info, TrackManager manager, MessageReceivedEvent event){
+        if(SECRETS.musixmatchkey.equals("disabled")){
+            embedSender.sendEmbed(":warning: This feature is disabled", event.getChannel(), Color.red);
+            return;
+        }
+        MusixMatch mm = new MusixMatch(SECRETS.musixmatchkey);
+        try {
+            Track track = mm.getMatchingTrack(info.title, info.author);
+            Lyrics lyrics = mm.getLyrics(track.getTrack().getTrackId());
+            EmbedBuilder embed = new EmbedBuilder();
+            embed.setTitle("Lyrics for" + track.getTrack().getTrackName(), track.getTrack().getTrackShareUrl());
+            embed.addField("NOTICE", "For full lyrics click the link above", false);
+            embed.setFooter(lyrics.getLyricsCopyright(), "https://lh4.ggpht.com/yrUJPyt4kgNtLTnWK42fHteubCfllwm-Hk0uDut2jQr96mkch4-uNwEoQXwVIEtmUeGd=w300");
+            embed.addField("Language", lyrics.getLyricsLang(), false);
+            embed.addField("Lyrics", lyrics.getLyricsBody(), false);
+            event.getChannel().sendMessage(embed.build()).queue();
+
+        } catch (Exception e) {
+            embedSender.sendEmbed(":warning: Sorry I can't find the lyrics for this track!", event.getChannel(), Color.red);
+        }
+    }
+
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
@@ -174,12 +201,7 @@ public class Music implements Command {
         MessageChannel channel = event.getChannel();
         channel.sendTyping().queue();
         message.delete().queue();
-
-
-
-
         guild = event.getGuild();
-
         if (args.length > 0) {
             if(!(args[0].toLowerCase() == "") && !event.getMember().getVoiceState().inVoiceChannel()){
                 embedSender.sendEmbed(":warning: You must be in a voice channel", channel, Color.red);
@@ -209,7 +231,7 @@ public class Music implements Command {
                         input = "ytsearch: " + input;
 
                     embedSender.sendEmbed("Searching for " + input.replace("ytsearch: ", "") + " ...", channel, Color.cyan);
-                    loadTrack(input, event.getMember(), event.getMessage());
+                    loadTrack(input, event.getMember());
                     new Timer().schedule(new TimerTask() {
                         @Override
                         public void run() {
@@ -217,8 +239,17 @@ public class Music implements Command {
                             int tracksize = tracks - (getManager(guild).getQueue().size() - 1);
                             if (tracks == 0)
                                 embedSender.sendEmbed(":warning: I can't find a video for you search query SORRY!", channel, Color.red);
-                            else
-                                embedSender.sendEmbed("**Added** :notes:`" + String.valueOf(tracks - (getManager(guild).getQueue().size()- 1)) + "` to the queue!", channel, Color.CYAN);
+                            else {
+                                EmbedBuilder queued = new EmbedBuilder();
+                                queued.setTitle("Added to queue", event.getAuthor().getAvatarUrl());
+                                AudioTrackInfo info = getPlayer(guild).getPlayingTrack().getInfo();
+                                queued.setDescription(info.title);
+                                queued.addField("Artist", info.author, true);
+                                queued.addField("Duration", getTimestamp(getPlayer(guild).getPlayingTrack().getDuration()), true);
+                                queued.addField("Position in Queue", String.valueOf(getManager(guild).getQueue().size()), false);
+                                event.getChannel().sendMessage(queued.build()).queue();
+                            }
+
                         }
                     }, 3000);
 
@@ -405,6 +436,11 @@ public class Music implements Command {
                     guild.getAudioManager().closeAudioConnection();
                     embedSender.sendEmbed(":white_check_mark: Successfully disconected", channel, Color.green);
                     break;
+                case "lyric":
+                case "lyrics":
+                    getLyrics(getPlayer(guild).getPlayingTrack().getInfo(), getManager(guild), event);
+                    break;
+
                 default:
                     sendErrorMsg(event, help(), 10000);
             }

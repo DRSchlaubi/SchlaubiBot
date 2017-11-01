@@ -1,7 +1,6 @@
 package net.schlaubi.schlaubibot.util;
 
 import net.dv8tion.jda.core.entities.Guild;
-import org.mockito.internal.matchers.Null;
 
 import java.sql.*;
 

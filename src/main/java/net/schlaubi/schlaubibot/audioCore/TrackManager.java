@@ -7,6 +7,7 @@ import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.VoiceChannel;
+import net.schlaubi.schlaubibot.commands.Music;
 
 import java.util.*;
 import java.util.concurrent.LinkedBlockingQueue;
@@ -14,13 +15,15 @@ import java.util.concurrent.LinkedBlockingQueue;
 public class TrackManager extends AudioEventAdapter{
 
     private final AudioPlayer PLAYER;
-    private final Queue<AudioInfo> QUEUE;
+    private static Queue<AudioInfo> QUEUE;
+
+
+
 
 
     public void onTrackEnd(AudioPlayer player, AudioTrack track, AudioTrackEndReason endReason){
         try {
             Guild g = QUEUE.poll().getAuthor().getGuild();
-
             if (QUEUE.isEmpty()) {
 
                 new Timer().schedule(new TimerTask() {
@@ -60,7 +63,7 @@ public class TrackManager extends AudioEventAdapter{
         return new LinkedHashSet<>(QUEUE);
     }
 
-    public AudioInfo getInfo(AudioTrack track){
+    public static AudioInfo getInfo(AudioTrack track){
         return QUEUE.stream()
                 .filter(info -> info.getTrack().equals(track))
                 .findFirst().orElse(null);
@@ -84,6 +87,7 @@ public class TrackManager extends AudioEventAdapter{
     public void onTrackStart(AudioPlayer player, AudioTrack track){
         AudioInfo info = QUEUE.element();
         VoiceChannel vChan = info.getAuthor().getVoiceState().getChannel();
+        TrackManager manager = Music.PLAYERS.get(info.getAuthor().getGuild()).getValue();
 
         if(vChan == null) {
             player.stopTrack();

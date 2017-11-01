@@ -19,6 +19,7 @@ import net.schlaubi.schlaubibot.util.STATIC;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
+import java.io.IOException;
 
 
 public class Main {
@@ -29,7 +30,7 @@ public class Main {
         System.out.println("[SchlaubiBot] Starting bot...");
         if(!new File("secrets.json").exists())
             Configuration.create_config();
-            MySQL.connect();
+        MySQL.connect();
             JDABuilder builder = new JDABuilder(AccountType.BOT);
             builder.setToken(SECRETS.token);
             builder.setAutoReconnect(true);
