@@ -1,28 +1,30 @@
 # SchlaubiBot
-Small Discord bot with some usefull tools
-**Speacial thanks:** https://github.com/zekroTJA and https://github.com/max95812
+Small Discord bot with some usefull tools<br>
+
+**Speacial thanks:** [@zekro](https://github.com/zekroTJA) and [@max95812](https://github.com/max95812)
+
 ### Get it!
+
 [![Uptime Robot status](https://img.shields.io/uptimerobot/status/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046) &nbsp;
 [![Uptime Robot ratio (7 days)](https://img.shields.io/uptimerobot/ratio/7/m779511046-c42978b8bcbefa73044af91d.svg)](https://stats.uptimerobot.com/lRZW1HgzQ/779511046)
 
 <a href="https://schlb.pw/2xifVSF ">
 <img src="https://github.com/zekroTJA/DiscordBot/blob/master/.websrc/add_to_discord.png?raw=true" width="300"/></a>
 
-or selhost the bot https://github.com/DRSchlaubi/SchlaubiBot/wiki/Selfhosting
+or self-host the bot https://github.com/DRSchlaubi/SchlaubiBot/wiki/Selfhosting
 
 ### Features
-__**NOTICE**__
-Some commands need Arguments <>are important arguments and []are optional 
-If you found any bug feel free to contact schlaubi (http://derschlaubi.xyz/)
+
+__**NOTICE**__<br>
+Some commands need Arguments `<>` are important arguments `[]` are optional.<br>
+If you found any bug feel free to [contact schlaubi](http://derschlaubi.xyz/)
 
 Command list
 - **Fun**
-  - `::kys <name>` - (Sends a hangman) 
-  - `::rip <name> <line>` - (Make your own Tombstone) 
+  - `::rip <name> <line>` - (Make your own Tombstone) 
   - `::medal <name> <text>` - (Creates your own medal) 
   - `::lmgtfy <search query>` - (Generates an help link for people who don't check how to use google) 
-  - `::kms` - (Kill myself)
-  - `::gif <query>` - (find your favourite gif)
+  - `::gif <query>` - (find your favourite gif)
   
 - **Server moderation**
   - `::clear <count>` - (clears messages)
@@ -68,3 +70,4 @@ Credits:
 <br>https://github.com/keshrath/Giphy4J
 <br>https://code.google.com/archive/p/bitlyj/
 <br>https://github.com/bertrandmartel/speed-test-lib
+<br>https://github.com/sachin-handiekar/jMusixMatch
