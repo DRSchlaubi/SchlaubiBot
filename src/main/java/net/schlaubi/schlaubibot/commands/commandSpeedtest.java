@@ -28,10 +28,6 @@ public class commandSpeedtest implements Command {
         User author = event.getAuthor();
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
-        if(permissionHandler.isOwner(event)){
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
 
         Message mymsg = channel.sendMessage("Starting speedtest").complete();
         SpeedTestSocket download = new SpeedTestSocket();
@@ -102,5 +98,25 @@ public class commandSpeedtest implements Command {
     @Override
     public String help() {
         return null;
+    }
+
+    @Override
+    public String description() {
+        return "Runs a speedtest on the bot's server";
+    }
+
+    @Override
+    public String usage() {
+        return "::speedtes";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.BOTINFO;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 3;
     }
 }

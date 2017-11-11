@@ -68,4 +68,24 @@ public class commandMedal implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Creates your own medal";
+    }
+
+    @Override
+    public String usage() {
+        return "::medal <name> <text>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.FUN;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

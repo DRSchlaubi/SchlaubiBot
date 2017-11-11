@@ -67,4 +67,24 @@ public class commandUnmute implements Command{
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Unmutes a player";
+    }
+
+    @Override
+    public String usage() {
+        return "::unmute <@User>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.MODERATION;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 1;
+    }
 }

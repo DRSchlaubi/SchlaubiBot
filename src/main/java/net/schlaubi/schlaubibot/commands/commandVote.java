@@ -178,13 +178,6 @@ public class commandVote implements Command, Serializable {
         privateMessage("You have successfully voted for option `" + args[1] + "`", new Color(0x3AD70E), event);
         Message pollmsg =  channel.getMessageById(String.valueOf(poll.pollmsg)).complete();
         pollmsg.editMessage(getParsedPoll(poll, event.getGuild()).build()).queue();
-
-
-
-
-
-
-
     }
 
     public static void reactVote(String reaction, MessageReactionAddEvent event) throws IOException, ClassNotFoundException {
@@ -444,5 +437,25 @@ public class commandVote implements Command, Serializable {
                         "`  " + STATIC.prefix + "vote stats  `  -  get stats of a current vote\n" +
                         "`  " + STATIC.prefix + "vote close  `  -  close a current vote"
                 ;
+    }
+
+    @Override
+    public String description() {
+        return "Vote System";
+    }
+
+    @Override
+    public String usage() {
+        return "::vote <subcommand> <args>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.POLLS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
     }
 }

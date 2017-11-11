@@ -77,4 +77,24 @@ public class commandRIP implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Creates a tombstone";
+    }
+
+    @Override
+    public String usage() {
+        return "::rip <name> <text>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.FUN;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

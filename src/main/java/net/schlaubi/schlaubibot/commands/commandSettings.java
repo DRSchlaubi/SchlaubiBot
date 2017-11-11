@@ -191,6 +191,26 @@ public class commandSettings implements Command {
                 ;
     }
 
+    @Override
+    public String description() {
+        return "Server settings for your own server";
+    }
+
+    @Override
+    public String usage() {
+        return "::settings <command> <subcommand> <argument>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.SERVER_SETTINGS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
+
     public String logHelp() {
         return "USAGE: \n" +
                 "`  " + STATIC.prefix + "settings log  toggle`  -  Toggles command logger\n" +

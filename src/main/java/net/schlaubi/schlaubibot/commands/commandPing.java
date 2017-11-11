@@ -42,4 +42,24 @@ public class commandPing implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Returns bot's ping";
+    }
+
+    @Override
+    public String usage() {
+        return "::ping";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.BOTINFO;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

@@ -48,4 +48,24 @@ public class commandBug implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return null;
+    }
+
+    @Override
+    public String usage() {
+        return null;
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.HIDDEN;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

@@ -43,4 +43,24 @@ public class commandServers implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Shows the bot's curent servers";
+    }
+
+    @Override
+    public String usage() {
+        return "::servers";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.BOTINFO;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 3;
+    }
 }

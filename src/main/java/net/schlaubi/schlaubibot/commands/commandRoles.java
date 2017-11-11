@@ -50,4 +50,24 @@ public class commandRoles implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Returns server's roles";
+    }
+
+    @Override
+    public String usage() {
+        return "::roles";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.TOOLS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

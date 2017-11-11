@@ -25,11 +25,6 @@ public class commandTerminate  implements Command{
         message.delete().queue();
         channel.sendTyping().queue();
 
-        if(permissionHandler.isOwner(event)){
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
-
         embedSender.sendEmbed(":stop_button:  Terminating ... Bye", channel, Color.green);
         System.exit(0);
 
@@ -45,5 +40,25 @@ public class commandTerminate  implements Command{
     @Override
     public String help() {
         return null;
+    }
+
+    @Override
+    public String description() {
+        return "Stops the bot";
+    }
+
+    @Override
+    public String usage() {
+        return "::terminate";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.BOTINFO;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 3;
     }
 }

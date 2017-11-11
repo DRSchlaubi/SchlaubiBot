@@ -28,11 +28,7 @@ public class commandStatus implements Command {
         channel.sendTyping().queue();
         message.delete().queue();
 
-        if(permissionHandler.isOwner(event)){
 
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
 
         if(args.length > 0){
             if(args[0].equals("reset")){
@@ -61,5 +57,25 @@ public class commandStatus implements Command {
     @Override
     public String help() {
         return null;
+    }
+
+    @Override
+    public String description() {
+        return "Changes the game of the bot";
+    }
+
+    @Override
+    public String usage() {
+        return "::status <name>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.BOTINFO;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 3;
     }
 }

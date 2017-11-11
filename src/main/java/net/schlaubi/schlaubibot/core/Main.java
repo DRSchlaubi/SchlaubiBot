@@ -19,12 +19,12 @@ import net.schlaubi.schlaubibot.util.STATIC;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
-import java.io.IOException;
 
 
 public class Main {
 
     public static JDABuilder builder;
+    public static JDA jda;
 
     public static void main(String[] args){
         System.out.println("[SchlaubiBot] Starting bot...");
@@ -50,7 +50,7 @@ public class Main {
 
 
         try {
-            JDA jda = builder.buildBlocking();
+            jda = builder.buildBlocking();
         } catch (LoginException e) {
             System.out.println("INVALID KEY!!" );
             String token = Configuration.prompt("token");
@@ -67,7 +67,6 @@ public class Main {
     public static void addCommands(){
 
        commandHandler.registerCommand("ping", new commandPing());
-       commandHandler.registerCommand("kys", new commandKYS());
        commandHandler.registerCommand("clear", new commandClear());
        commandHandler.registerCommand("rip", new commandRIP());
        commandHandler.registerCommand("version", new commandVersion());
@@ -83,7 +82,6 @@ public class Main {
        commandHandler.registerCommand("lmgtfy", new commandlmgtfy());
        commandHandler.registerCommand("userid", new commandUserid());
        commandHandler.registerCommand("servers", new commandServers());
-       commandHandler.registerCommand("kms", new commandKMS());
        commandHandler.registerCommand("mute", new commandMute());
        commandHandler.registerCommand("unmute", new commandUnmute());
        commandHandler.registerCommand("serverinfo", new commandServerInfo());
@@ -98,6 +96,7 @@ public class Main {
        commandHandler.registerCommand("gif", new commandGif());
        commandHandler.registerCommand("speedtest", new commandSpeedtest());
        commandHandler.registerCommand("bug", new commandBug());
+       commandHandler.registerCommand("setlevel", new commandSetLevel());
 
     }
 

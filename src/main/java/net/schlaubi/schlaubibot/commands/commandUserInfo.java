@@ -92,4 +92,24 @@ public class commandUserInfo implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Returns some information about a user";
+    }
+
+    @Override
+    public String usage() {
+        return "::userinfo <@User>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.TOOLS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

@@ -59,4 +59,24 @@ public class commandServerInfo implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Returns some information about your curent server";
+    }
+
+    @Override
+    public String usage() {
+        return "::serverinfo";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.TOOLS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

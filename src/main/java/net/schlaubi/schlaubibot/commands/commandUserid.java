@@ -55,4 +55,24 @@ public class commandUserid implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Returns the userid of a player";
+    }
+
+    @Override
+    public String usage() {
+        return "::userid <@User>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.TOOLS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

@@ -5,15 +5,12 @@ import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.GuildController;
 import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.schlaubi.schlaubibot.util.MySQL;
-import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
 
 public class commandAddrole implements Command {
-    private String prefix;
-    private String query = "";
 
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
@@ -22,7 +19,6 @@ public class commandAddrole implements Command {
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
-        
         User author = event.getAuthor();
         Message message = event.getMessage();
         MessageChannel channel = event.getChannel();
@@ -30,15 +26,8 @@ public class commandAddrole implements Command {
         GuildController gcon = new GuildController(guild);
         channel.sendTyping().queue();
         message.delete().queue();
-        this.prefix = MySQL.getValue(guild, "prefix");
-        
+        String prefix = MySQL.getValue(guild, "prefix");
 
-
-        if(permissionHandler.check(event)){
-
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
         if(args.length >= 2){
             if(message.getMentionedUsers().size() == 0){
                 embedSender.sendEmbed("Usage: `" + prefix + "addrole <@User> <role>`", channel, Color.red);
@@ -47,16 +36,18 @@ public class commandAddrole implements Command {
 
             Member member = guild.getMember(message.getMentionedUsers().get(0));
             try {
+                StringBuilder query = new StringBuilder();
                 for(int i = 1; i < args.length; i++){
-                    query += " " + args[i];
+                    query.append(args[i]).append(" ");
                 }
-                Role role = guild.getRolesByName(query.replaceFirst(" ", ""), true).get(0);
+                String search = query.toString();
+                Role role = guild.getRolesByName(search.replaceFirst(" ", ""), true).get(0);
                 if (member.getRoles().contains(role)) {
                     embedSender.sendEmbed(":warning: This user already has this role", channel, Color.red);
                     return;
                 }
                 gcon.addRolesToMember(member, role).queue();
-                embedSender.sendEmbed(":white_check_mark: Succesfully assigned role `" + query.replaceFirst(" ", "") + "` to " + member.getAsMention(), channel, Color.green);
+                embedSender.sendEmbed(":white_check_mark: Succesfully assigned role `" + search.replaceFirst(" ", "") + "` to " + member.getAsMention(), channel, Color.green);
             } catch (IndexOutOfBoundsException e){
                 embedSender.sendEmbed(":warning: Sorry but this role don't exists", channel, Color.red);
             }
@@ -74,5 +65,25 @@ public class commandAddrole implements Command {
     @Override
     public String help() {
         return null;
+    }
+
+    @Override
+    public String description() {
+        return "Assigns a role to a user";
+    }
+
+    @Override
+    public String usage() {
+        return "::addrole <@User> <role>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.TOOLS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 2;
     }
 }

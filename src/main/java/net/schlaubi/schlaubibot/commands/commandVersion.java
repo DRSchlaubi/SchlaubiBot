@@ -43,4 +43,24 @@ public class commandVersion implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Returns bot's curent version";
+    }
+
+    @Override
+    public String usage() {
+        return "::version";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.BOTINFO;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

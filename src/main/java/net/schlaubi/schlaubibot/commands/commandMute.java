@@ -27,12 +27,6 @@ public class commandMute implements Command{
         Message message = event.getMessage();
         channel.sendTyping().queue();
         message.delete().queue();
-        if(permissionHandler.check(event)){
-
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
-
 
         if(args.length > 0){
             List<User> mentioned = message.getMentionedUsers();
@@ -72,5 +66,25 @@ public class commandMute implements Command{
     @Override
     public String help() {
         return null;
+    }
+
+    @Override
+    public String description() {
+        return "Mutes/Unmutes a user";
+    }
+
+    @Override
+    public String usage() {
+        return "::mute <@User>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.MODERATION;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 1;
     }
 }

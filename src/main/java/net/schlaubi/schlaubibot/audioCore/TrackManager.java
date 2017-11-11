@@ -4,6 +4,7 @@ import com.sedmelluq.discord.lavaplayer.player.AudioPlayer;
 import com.sedmelluq.discord.lavaplayer.player.event.AudioEventAdapter;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrack;
 import com.sedmelluq.discord.lavaplayer.track.AudioTrackEndReason;
+import com.sedmelluq.discord.lavaplayer.track.AudioTrackInfo;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.Member;
 import net.dv8tion.jda.core.entities.VoiceChannel;
@@ -63,6 +64,8 @@ public class TrackManager extends AudioEventAdapter{
         return new LinkedHashSet<>(QUEUE);
     }
 
+    public static ArrayList<AudioInfo> getSongs(){ return new ArrayList<>(QUEUE); }
+
     public static AudioInfo getInfo(AudioTrack track){
         return QUEUE.stream()
                 .filter(info -> info.getTrack().equals(track))
@@ -98,6 +101,16 @@ public class TrackManager extends AudioEventAdapter{
         }
 
 
+    }
+
+    public static AudioTrackInfo getLastSong(Guild guild){
+        Iterator<AudioInfo> itr = Music.PLAYERS.get(guild).getValue().getQueue().iterator();
+        AudioTrackInfo lastTrack = itr.next().getTrack().getInfo();
+
+        while (itr.hasNext()){
+            lastTrack=itr.next().getTrack().getInfo();
+        }
+        return lastTrack;
     }
 
 

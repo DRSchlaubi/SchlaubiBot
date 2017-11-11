@@ -56,4 +56,24 @@ public class commandShort implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Shorts an URL for you";
+    }
+
+    @Override
+    public String usage() {
+        return "::short <longurl>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.TOOLS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

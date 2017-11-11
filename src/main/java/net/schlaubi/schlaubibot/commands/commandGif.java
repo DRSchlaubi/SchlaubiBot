@@ -83,4 +83,24 @@ public class commandGif implements Command{
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Find your favourite gif";
+    }
+
+    @Override
+    public String usage() {
+        return "::gif <query>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.FUN;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

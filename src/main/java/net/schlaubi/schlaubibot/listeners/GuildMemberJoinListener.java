@@ -4,6 +4,7 @@ package net.schlaubi.schlaubibot.listeners;
 import net.dv8tion.jda.core.entities.Guild;
 import net.dv8tion.jda.core.entities.TextChannel;
 import net.dv8tion.jda.core.events.guild.member.GuildMemberJoinEvent;
+import net.dv8tion.jda.core.exceptions.InsufficientPermissionException;
 import net.dv8tion.jda.core.hooks.ListenerAdapter;
 import net.schlaubi.schlaubibot.util.MySQL;
 
@@ -21,8 +22,13 @@ public class GuildMemberJoinListener extends ListenerAdapter {
         String joinmessage = MySQL.getValue(guild, "joinmessage").replace("%user%", e.getUser().getAsMention()).replace("%guild%", guild.getName());
         if(!enabled.equals("0")) {
             TextChannel channel = guild.getTextChannelById(channelid);
-            channel.sendTyping().queue();
-            channel.sendMessage(joinmessage).queue();
+            try {
+                channel.sendTyping().queue();
+                channel.sendMessage(joinmessage).queue();
+            } catch (InsufficientPermissionException ex){
+                System.out.println("Could not send message to user" + ex.getCause());
+            }
         }
+        MySQL.createUser(e.getUser());
     }
 }

@@ -25,6 +25,19 @@ public class permissionHandler {
         return true;
     }
 
+    public static String getPermissonIcon(int permlvl){
+        if(permlvl == 0){
+            return ":white_small_square: ";
+        } else if(permlvl == 1){
+            return ":small_blue_diamond: ";
+        } else if(permlvl == 2){
+            return ":large_blue_diamond: ";
+        } else if(permlvl == 3){
+            return ":small_red_triangle: ";
+        }
+        return null;
+    }
+
 
 
 }

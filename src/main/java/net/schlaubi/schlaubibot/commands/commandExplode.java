@@ -119,4 +119,24 @@ public class commandExplode implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Let the chat explode";
+    }
+
+    @Override
+    public String usage() {
+        return "::explode <messageid>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.FUN;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

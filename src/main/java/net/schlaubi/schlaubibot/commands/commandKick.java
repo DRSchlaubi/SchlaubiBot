@@ -32,15 +32,6 @@ public class commandKick implements Command {
         channel.sendTyping().queue();
         message.delete().queue();
 
-
-        if(permissionHandler.check(event)){
-            if(permissionHandler.check(event)){
-
-                embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-                return;
-            }
-            return;
-        }
             if(args.length >0){
                 List<User> mentioned = message.getMentionedUsers();
                 for(User users : mentioned){
@@ -72,5 +63,25 @@ public class commandKick implements Command {
     @Override
     public String help() {
         return null;
+    }
+
+    @Override
+    public String description() {
+        return "Kicks a User";
+    }
+
+    @Override
+    public String usage() {
+        return "::kick <@User>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.MODERATION;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 1;
     }
 }

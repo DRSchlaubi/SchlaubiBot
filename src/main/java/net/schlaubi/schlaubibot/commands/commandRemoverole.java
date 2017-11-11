@@ -28,11 +28,7 @@ public class commandRemoverole implements Command {
         GuildController gcon = new GuildController(guild);
         channel.sendTyping().queue();
         message.delete().queue();
-        if(permissionHandler.check(event)){
 
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
         if(args.length >= 2){
             if(message.getMentionedUsers().size() == 0){
                 embedSender.sendEmbed("Usage: `" + prefix + "addrole <@User> <role>`", channel, Color.red);
@@ -41,16 +37,18 @@ public class commandRemoverole implements Command {
 
             Member member = guild.getMember(message.getMentionedUsers().get(0));
             try {
+                StringBuilder query = new StringBuilder();
                 for(int i = 1; i < args.length; i++){
-                    query += " " + args[i];
+                    query.append(args[i]).append(" ");
                 }
-                Role role = guild.getRolesByName(query.replaceFirst(" ", ""), true).get(0);
+                String search = query.toString();
+                Role role = guild.getRolesByName(search.replaceFirst(" ", ""), true).get(0);
                 if (!member.getRoles().contains(role)) {
                     embedSender.sendEmbed(":warning: This user don't has this role", channel, Color.red);
                     return;
                 }
                 gcon.removeRolesFromMember(member, role).queue();
-                embedSender.sendEmbed(":white_check_mark: Succesfully removed role `" + query.replaceFirst(" ", "") + "` from " + member.getAsMention(), channel, Color.green);
+                embedSender.sendEmbed(":white_check_mark: Succesfully removed role `" + search.replaceFirst(" ", "") + "` from " + member.getAsMention(), channel, Color.green);
             } catch (IndexOutOfBoundsException e){
                 embedSender.sendEmbed(":warning: Sorry but this role don't exists", channel, Color.red);
             }
@@ -68,5 +66,25 @@ public class commandRemoverole implements Command {
     @Override
     public String help() {
         return null;
+    }
+
+    @Override
+    public String description() {
+        return "Removes a role from a member";
+    }
+
+    @Override
+    public String usage() {
+        return "::removerole <@User> <role>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.TOOLS;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 2;
     }
 }

@@ -21,9 +21,7 @@ import net.schlaubi.schlaubibot.util.SECRETS;
 import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
-import org.jmusixmatch.MusixMatch;
-import org.jmusixmatch.MusixMatchException;
-import org.jmusixmatch.entity.lyrics.Lyrics;
+import org.jmusixmatch.MusixMatch;import org.jmusixmatch.entity.lyrics.Lyrics;
 import org.jmusixmatch.entity.track.Track;
 
 import java.awt.Color;
@@ -241,12 +239,14 @@ public class Music implements Command {
                                 embedSender.sendEmbed(":warning: I can't find a video for you search query SORRY!", channel, Color.red);
                             else {
                                 EmbedBuilder queued = new EmbedBuilder();
-                                queued.setTitle("Added to queue", event.getAuthor().getAvatarUrl());
-                                AudioTrackInfo info = getPlayer(guild).getPlayingTrack().getInfo();
+                                queued.setTitle("Added to queue");
+                                queued.setAuthor(event.getAuthor().getName(), null, event.getAuthor().getAvatarUrl());
+                                AudioTrackInfo info = TrackManager.getLastSong(guild);
                                 queued.setDescription(info.title);
                                 queued.addField("Artist", info.author, true);
                                 queued.addField("Duration", getTimestamp(getPlayer(guild).getPlayingTrack().getDuration()), true);
                                 queued.addField("Position in Queue", String.valueOf(getManager(guild).getQueue().size()), false);
+
                                 event.getChannel().sendMessage(queued.build()).queue();
                             }
 
@@ -472,5 +472,25 @@ public class Music implements Command {
                 "`  " + STATIC.prefix + "music skip` [number of songs] - (Skips the specified amount of songs)\n" +
                 "`  " + STATIC.prefix + "music queue` - (Shows the queue)"
                 ;
+    }
+
+    @Override
+    public String description() {
+        return "Music bot command";
+    }
+
+    @Override
+    public String usage() {
+        return "::music <subcommand> <args>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.MUSIC;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
     }
 }

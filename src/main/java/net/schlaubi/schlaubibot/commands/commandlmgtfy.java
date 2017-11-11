@@ -55,4 +55,24 @@ public class commandlmgtfy implements Command {
     public String help() {
         return null;
     }
+
+    @Override
+    public String description() {
+        return "Generates an help link for people who don't check how to use google";
+    }
+
+    @Override
+    public String usage() {
+        return "::lmgtfy <query>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.FUN;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 0;
+    }
 }

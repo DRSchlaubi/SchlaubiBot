@@ -32,12 +32,6 @@ public class commandBan implements Command {
 
         channel.sendTyping().queue();
         message.delete().queue();
-
-        if (permissionHandler.check(event)) {
-
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
         if (args.length > 0) {
             List<User> mentioned = message.getMentionedUsers();
             for (User users : mentioned) {
@@ -70,5 +64,24 @@ public class commandBan implements Command {
     @Override
     public String help() {
         return null;
+    }
+
+    @Override
+    public String description() {
+        return "Bans a user";
+    }
+    @Override
+    public String usage() {
+        return "::ban <@User>";
+    }
+
+    @Override
+    public CommandCategory category() {
+        return CommandCategory.MODERATION;
+    }
+
+    @Override
+    public int permissionlevel() {
+        return 2;
     }
 }
