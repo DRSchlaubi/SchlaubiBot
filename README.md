@@ -21,12 +21,10 @@ If you found any bug feel free to [contact schlaubi](http://derschlaubi.xyz/)
 
 Command list
 - **Fun**
-  - `::kys <name>` - (Sends a hangman) 
-  - `::rip <name> <line>` - (Make your own Tombstone) 
+  - `::rip <name> <line>` - (Make your own Tombstone) 
   - `::medal <name> <text>` - (Creates your own medal) 
   - `::lmgtfy <search query>` - (Generates an help link for people who don't check how to use google) 
-  - `::kms` - (Kill myself)
-  - `::gif <query>` - (find your favourite gif)
+  - `::gif <query>` - (find your favourite gif)
   
 - **Server moderation**
   - `::clear <count>` - (clears messages)
@@ -72,3 +70,4 @@ Credits:
 <br>https://github.com/keshrath/Giphy4J
 <br>https://code.google.com/archive/p/bitlyj/
 <br>https://github.com/bertrandmartel/speed-test-lib
+<br>https://github.com/sachin-handiekar/jMusixMatch
