@@ -19,7 +19,7 @@ public class commandHandler {
 
         if (commands.containsKey(cmd.invoke.toLowerCase())) {
             boolean safe = commands.get(cmd.invoke.toLowerCase()).called(cmd.args, cmd.event);
-            int permlevel = MySQL.getUserPermissionLevel(event.getAuthor());
+            int permlevel = MySQL.getUserPermissionLevel(event.getAuthor(), event.getGuild());
             if(commands.get(cmd.invoke.toLowerCase()).permissionlevel() > permlevel){
                 event.getMessage().delete().queue();
                 embedSender.sendEmbed(":warning: You have no permission to perform that command! \n Needed permission level: `" + commands.get(cmd.invoke.toLowerCase()).permissionlevel() + "` \nYour permission level: `" + permlevel + "`", event.getChannel(), Color.red);

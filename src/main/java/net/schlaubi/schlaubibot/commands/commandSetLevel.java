@@ -6,6 +6,7 @@ import net.dv8tion.jda.core.entities.MessageChannel;
 import net.dv8tion.jda.core.entities.User;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.managers.GuildController;
+import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
@@ -41,12 +42,17 @@ public class commandSetLevel implements Command{
                 return;
             }
 
-            if(permlvl > MySQL.getUserPermissionLevel(author)){
+            if(permlvl > MySQL.getUserPermissionLevel(author, guild)){
                 embedSender.sendEmbed(":warning: You can't assign a permission level, that is higher than yours", channel, Color.red);
                 return;
             }
 
-            MySQL.setPermissionLevel(target, permlvl);
+            if(permissionHandler.isOwner(target)){
+                embedSender.sendEmbed(":warning: You cant change the permissionlevel of a bot owner", channel, Color.red);
+                return;
+            }
+
+            MySQL.setPermissionLevel(target, guild, permlvl);
             embedSender.sendEmbed(":white_check_mark: Successfully set permissionlevel of " + target.getAsMention() + " to `" + String.valueOf(permlvl) + "`", channel, Color.green);
         } else {
             embedSender.sendEmbed(help(), channel, Color.red);

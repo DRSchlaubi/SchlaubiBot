@@ -21,10 +21,12 @@ public class GuildJoinListener extends ListenerAdapter{
         MySQL.createServer(event.getGuild());
 
         event.getGuild().getMembers().forEach(m -> {
+            if (!MySQL.ifUserExits(m.getUser(), event.getGuild()))
+                MySQL.createUser(m.getUser(), event.getGuild());
             if(m.hasPermission(Permission.ADMINISTRATOR)){
-                MySQL.setPermissionLevel(m.getUser(), 2);
+                MySQL.setPermissionLevel(m.getUser(), event.getGuild(), 2);
             } else if (m.hasPermission(Permission.MANAGE_SERVER)){
-                MySQL.setPermissionLevel(m.getUser(), 1);
+                MySQL.setPermissionLevel(m.getUser(), event.getGuild(), 1);
             }
         });
     }

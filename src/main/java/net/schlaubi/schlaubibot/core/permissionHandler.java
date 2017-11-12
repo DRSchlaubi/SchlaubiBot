@@ -17,8 +17,8 @@ public class permissionHandler {
         return true;
     }
 
-    public static Boolean isOwner(MessageReceivedEvent event){
-        User a = event.getAuthor();
+    public static Boolean isOwner(User user){
+        User a = user;
         if(Arrays.stream(STATIC.OWNERS).parallel().anyMatch(a.getId()::contains)){
             return false;
         }

@@ -29,6 +29,6 @@ public class GuildMemberJoinListener extends ListenerAdapter {
                 System.out.println("Could not send message to user" + ex.getCause());
             }
         }
-        MySQL.createUser(e.getUser());
+        MySQL.createUser(e.getUser(), e.getGuild());
     }
 }

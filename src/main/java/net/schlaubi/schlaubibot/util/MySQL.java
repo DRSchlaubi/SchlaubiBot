@@ -106,24 +106,26 @@ public class MySQL {
         return null;
     }
 
-    public static void createUser(User user){
+    public static void createUser(User user, Guild guild){
         try{
             if(connection.isClosed())
                 connect();
-            PreparedStatement ps = connection.prepareStatement("INSERT INTO `users`(`discordid`, `permlvl`) VALUES  (?, '0')");
+            PreparedStatement ps = connection.prepareStatement("INSERT INTO `permissiones`(`discordid`, `serverid`, `permlvl`) VALUES  (?, ?, '0')");
             ps.setString(1, user.getId());
+            ps.setString(2, guild.getId());
             ps.execute();
         } catch (SQLException e){
             e.printStackTrace();
         }
     }
 
-    public static void deleteUser(User user){
+    public static void deleteUser(User user, Guild guild){
         try {
             if(connection.isClosed())
                 connect();
-            PreparedStatement ps = connection.prepareStatement("DELETE FROM `ùsers` WHERE discordid=?");
+            PreparedStatement ps = connection.prepareStatement("DELETE FROM `ùsers` WHERE discordid=? AND serverid=?");
             ps.setString(1, user.getId());
+            ps.setString(2, guild.getId());
             ps.execute();
         } catch (SQLException e){
             e.printStackTrace();
@@ -142,7 +144,7 @@ public class MySQL {
         }
     }
 
-    public static boolean ifUserExits(User user){
+    public static boolean ifUserExits(User user, Guild guild){
         try {
             Thread.sleep(500);
         } catch (InterruptedException e) {
@@ -151,8 +153,9 @@ public class MySQL {
         try {
             if(connection.isClosed())
                 connect();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE discordid = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM permissiones WHERE discordid = ? AND serverid = ?");
             ps.setString(1, user.getId());
+            ps.setString(2, guild.getId());
             ResultSet rs = ps.executeQuery();
             return rs.next();
         } catch (SQLException | NullPointerException e) {
@@ -161,12 +164,13 @@ public class MySQL {
         return  false;
     }
 
-    public static int getUserPermissionLevel(User user){
+    public static int getUserPermissionLevel(User user, Guild guild){
         try{
             if(connection.isClosed())
                 connect();
-            PreparedStatement ps = connection.prepareStatement("SELECT * FROM users WHERE `discordid` = ?");
+            PreparedStatement ps = connection.prepareStatement("SELECT * FROM permissiones WHERE `discordid` = ? AND serverid = ?");
             ps.setString(1, user.getId());
+            ps.setString(2, guild.getId());
             ResultSet rs = ps.executeQuery();
             while (rs.next())
                 return Integer.parseInt(rs.getString("permlvl"));
@@ -176,11 +180,11 @@ public class MySQL {
         return 0;
     }
 
-    public static void setPermissionLevel(User user, int permlvl){
+    public static void setPermissionLevel(User user,Guild guild, int permlvl){
         try{
             if(connection.isClosed())
                 connect();
-            PreparedStatement ps = connection.prepareStatement("UPDATE users SET permlvl= " + String.valueOf(permlvl) + " WHERE discordid='" + user.getId() + "'");
+            PreparedStatement ps = connection.prepareStatement("UPDATE permissiones SET permlvl= " + String.valueOf(permlvl) + " WHERE discordid='" + user.getId() + "' AND serverid='" + guild.getId() + "'");
             ps.execute();
         } catch (SQLException e){
             e.printStackTrace();
