@@ -33,10 +33,11 @@ public class commandSetLevel implements Command{
                 embedSender.sendEmbed(help(), channel, Color.red);
                 return;
             }
+            String prefix = MySQL.getValue(guild, "prefix");
             User target = message.getMentionedUsers().get(0);
             int permlvl = 0;
             try {
-                permlvl = Integer.parseInt(args[1]);
+                permlvl = Integer.parseInt(args[0]);
             } catch (NumberFormatException e){
                 embedSender.sendEmbed(":warning: Please enter a valid number", channel, Color.red);
                 return;
@@ -47,7 +48,7 @@ public class commandSetLevel implements Command{
                 return;
             }
 
-            if(permissionHandler.isOwner(target)){
+            if(!permissionHandler.isOwner(target)){
                 embedSender.sendEmbed(":warning: You cant change the permissionlevel of a bot owner", channel, Color.red);
                 return;
             }
@@ -66,7 +67,7 @@ public class commandSetLevel implements Command{
 
     @Override
     public String help() {
-        return "Usage: `::setlevel <@User> <level>`";
+        return "Usage: `::setlevel <level> <@User>`";
     }
 
     @Override
@@ -76,7 +77,7 @@ public class commandSetLevel implements Command{
 
     @Override
     public String usage() {
-        return "::setlevel <@User> <level>";
+        return "::setlevel <level> <@User> ";
     }
 
     @Override

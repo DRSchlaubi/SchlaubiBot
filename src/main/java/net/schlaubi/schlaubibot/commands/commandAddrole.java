@@ -27,7 +27,6 @@ public class commandAddrole implements Command {
         channel.sendTyping().queue();
         message.delete().queue();
         String prefix = MySQL.getValue(guild, "prefix");
-
         if(args.length >= 2){
             if(message.getMentionedUsers().size() == 0){
                 embedSender.sendEmbed("Usage: `" + prefix + "addrole <@User> <role>`", channel, Color.red);
@@ -35,6 +34,8 @@ public class commandAddrole implements Command {
             }
 
             Member member = guild.getMember(message.getMentionedUsers().get(0));
+
+            args = event.getMessage().getContent().replace(member.getEffectiveName(), "").replace(prefix + "addrole", "").split(" ");
             try {
                 StringBuilder query = new StringBuilder();
                 for(int i = 1; i < args.length; i++){

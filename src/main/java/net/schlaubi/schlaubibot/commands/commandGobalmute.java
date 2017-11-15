@@ -1,18 +1,15 @@
 package net.schlaubi.schlaubibot.commands;
 
-import net.schlaubi.schlaubibot.core.permissionHandler;
 import net.dv8tion.jda.core.Permission;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.schlaubi.schlaubibot.util.MySQL;
-import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
 
 import java.awt.*;
-import java.util.List;
 
-public class commandMute implements Command{
+public class commandGobalmute implements Command{
     @Override
     public boolean called(String[] args, MessageReceivedEvent event) {
         return false;
@@ -20,6 +17,7 @@ public class commandMute implements Command{
 
     @Override
     public void action(String[] args, MessageReceivedEvent event) {
+
         User author = event.getAuthor();
         Guild guild = event.getGuild();
         String prefix = MySQL.getValue(guild, "prefix");
@@ -28,33 +26,35 @@ public class commandMute implements Command{
         channel.sendTyping().queue();
         message.delete().queue();
 
-        if(message.getMentionedUsers().size() > 0){
+        if (message.getMentionedUsers().size() != 0) {
             Member member = guild.getMember(message.getMentionedUsers().get(0));
-            if(channel.getPermissionOverride(member) == null){
+            if (channel.getPermissionOverride(member) == null) {
                 channel.createPermissionOverride(member).complete();
             }
 
-            if(!guild.getSelfMember().canInteract(member)){
+            if (!guild.getSelfMember().canInteract(member)) {
                 embedSender.sendEmbed(":warning: You can't mute " + member.getAsMention() + "he's an admin", channel, Color.red);
                 return;
             }
 
             if(!channel.getPermissionOverride(member).getDenied().contains(Permission.MESSAGE_WRITE)){
-                channel.getPermissionOverride(member).getManager().deny(Permission.MESSAGE_WRITE).queue();
-                embedSender.sendEmbed(":white_check_mark:  Successfully muted " + member.getAsMention(), channel, Color.green);
+                guild.getTextChannels().forEach(c -> {
+                    if (c.getPermissionOverride(member) == null) {
+                        c.createPermissionOverride(member).complete();
+                    }
+                    c.getPermissionOverride(member).getManager().deny(Permission.MESSAGE_WRITE).queue();
+                });
+                embedSender.sendEmbed(":white_check_mark:  Successfully muted " + member.getAsMention() + "globally", channel, Color.green);
+
             }
 
-        } else {
-
-                embedSender.sendEmbed("Usage: `" + prefix + "mute <@User>` ", channel, Color.red);
-            }
         }
-
+    }
 
     @Override
     public void executed(boolean success, MessageReceivedEvent event) {
 
-        commandLogger.logCommand("mute", event);
+        commandLogger.logCommand("globalmute", event);
 
     }
 
@@ -65,12 +65,12 @@ public class commandMute implements Command{
 
     @Override
     public String description() {
-        return "Mutes/Unmutes a user";
+        return "Mutes a user in every Channel";
     }
 
     @Override
     public String usage() {
-        return "::mute <@User>";
+        return "::globalmute <@User>";
     }
 
     @Override

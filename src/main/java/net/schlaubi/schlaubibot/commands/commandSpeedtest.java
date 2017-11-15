@@ -107,7 +107,7 @@ public class commandSpeedtest implements Command {
 
     @Override
     public String usage() {
-        return "::speedtes";
+        return "::speedtest";
     }
 
     @Override

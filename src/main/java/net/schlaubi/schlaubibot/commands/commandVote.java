@@ -8,6 +8,7 @@ import net.dv8tion.jda.core.JDA;
 import net.dv8tion.jda.core.entities.*;
 import net.dv8tion.jda.core.events.message.MessageReceivedEvent;
 import net.dv8tion.jda.core.exceptions.ErrorResponseException;
+import net.schlaubi.schlaubibot.util.MySQL;
 import net.schlaubi.schlaubibot.util.STATIC;
 import net.schlaubi.schlaubibot.util.commandLogger;
 import net.schlaubi.schlaubibot.util.embedSender;
@@ -309,13 +310,8 @@ public class commandVote implements Command, Serializable {
 
         Poll poll = polls.get(event.getGuild());
 
-        if(permissionHandler.check(event)){
-
-            if(permissionHandler.check(event)){
-
-                embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-                return;
-            }
+        if(MySQL.getUserPermissionLevel(event.getAuthor(), event.getGuild()) < 1){
+            embedSender.sendEmbed(":warning: Sorry but you are not permitted to perform this command", channel, Color.red);
             return;
         }
 

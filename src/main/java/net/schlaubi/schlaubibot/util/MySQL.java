@@ -8,7 +8,7 @@ import java.sql.*;
 public class MySQL {
 
     private static String password = SECRETS.password;
-    private static Connection connection;
+    public static Connection connection;
 
     public static void connect(){
         if(!isConnected()){

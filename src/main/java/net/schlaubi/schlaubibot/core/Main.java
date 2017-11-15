@@ -1,9 +1,6 @@
 package net.schlaubi.schlaubibot.core;
 
 
-
-
-
 import net.schlaubi.schlaubibot.commands.*;
 import net.schlaubi.schlaubibot.listeners.*;
 import net.dv8tion.jda.core.AccountType;
@@ -19,6 +16,12 @@ import net.schlaubi.schlaubibot.util.STATIC;
 
 import javax.security.auth.login.LoginException;
 import java.io.File;
+
+/*
+  * @author Michael Rittmeister <mail@schlaubi.net>
+  * @package net.schlaubi.schlaubibot.core
+  * @description Main class of SchlaubiBot
+  */
 
 
 public class Main {
@@ -97,6 +100,8 @@ public class Main {
        commandHandler.registerCommand("speedtest", new commandSpeedtest());
        commandHandler.registerCommand("bug", new commandBug());
        commandHandler.registerCommand("setlevel", new commandSetLevel());
+       commandHandler.registerCommand("globalmute", new commandGobalmute());
+       commandHandler.registerCommand("search", new commandSearch());
 
     }
 

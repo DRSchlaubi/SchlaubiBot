@@ -282,7 +282,6 @@ public class Music implements Command {
                         embedSender.sendEmbed("There is no song running on this guild", channel, Color.red);
                         return;
                     }
-                    getManager(guild).purgeQueue();
                     guild.getAudioManager().closeAudioConnection();
                     embedSender.sendEmbed(":stop_button:  Successfully stopped queue", channel, Color.green);
 

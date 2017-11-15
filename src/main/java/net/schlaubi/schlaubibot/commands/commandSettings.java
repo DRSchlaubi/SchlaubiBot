@@ -30,10 +30,6 @@ public class commandSettings implements Command {
         message.delete().queue();
         channel.sendTyping().queue();
 
-        if (permissionHandler.check(event)) {
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
 
         if (!(args.length > 0)) {
             embedSender.sendEmbed(help(), channel, Color.red);

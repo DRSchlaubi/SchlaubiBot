@@ -25,11 +25,6 @@ public class commandUnmute implements Command{
         channel.sendTyping().queue();
         message.delete().queue();
 
-        if(permissionHandler.check(event)){
-
-            embedSender.sendEmbed("Sorry, " + author.getAsMention() + " but you don't have the permission to perform that command!", channel, Color.red);
-            return;
-        }
 
         if(args.length > 0){
             List<User> mentioned = message.getMentionedUsers();
@@ -39,12 +34,19 @@ public class commandUnmute implements Command{
                     channel.createPermissionOverride(member).complete();
                 }
                 if (channel.getPermissionOverride(member).getDenied().contains(Permission.MESSAGE_WRITE)){
-                    channel.getPermissionOverride(member).getManager().clear(Permission.MESSAGE_WRITE);
-                    channel.getPermissionOverride(member).getManager().grant(Permission.MESSAGE_WRITE).complete();
+                    guild.getTextChannels().forEach(c -> {
+                        if(c.getPermissionOverride(member) == null){
+                            c.createPermissionOverride(member).complete();
+                        }
+                        c.getPermissionOverride(member).getManager().clear(Permission.MESSAGE_WRITE);
+                        c.getPermissionOverride(member).getManager().grant(Permission.MESSAGE_WRITE).complete();
+                    });
                     embedSender.sendEmbed(":white_check_mark: Succesfully unmuted " + users.getAsMention(), channel, Color.green);
                 } else {
                     embedSender.sendEmbed(":warning: This user is not muted use `mute <@User>` to mute him", channel, Color.red);
                 }
+
+
             }
 
 
