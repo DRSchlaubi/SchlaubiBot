@@ -11,16 +11,16 @@ Small Discord bot with some usefull tools<br>
 <a href="https://schlb.pw/2xifVSF ">
 <img src="https://github.com/zekroTJA/DiscordBot/blob/master/.websrc/add_to_discord.png?raw=true" width="300"/></a>
 
-or self-host the bot https://github.com/DRSchlaubi/SchlaubiBot/wiki/Selfhosting
-
+or <a href="https://github.com/DRSchlaubi/SchlaubiBot/wiki/Selfhosting
+">self-host the Bot</a> 
 ### Features
 
 __**NOTICE**__<br>
 Some commands need Arguments `<>` are important arguments `[]` are optional.<br>
-If you found any bug feel free to [contact schlaubi](http://derschlaubi.xyz/)
+If you found any bug feel free to [contact Schlaubi](http://derschlaubi.xyz/)
 
 Command list
-- **Fun**
+- **Fun**                                                                                          
   - `::rip <name> <line>` - (Make your own Tombstone) 
   - `::medal <name> <text>` - (Creates your own medal) 
   - `::lmgtfy <search query>` - (Generates an help link for people who don't check how to use google) 
@@ -70,3 +70,4 @@ Credits:
 <br>https://code.google.com/archive/p/bitlyj/
 <br>https://github.com/bertrandmartel/speed-test-lib
 <br>https://github.com/sachin-handiekar/jMusixMatch
+<br>https://github.com/LeeDJD
