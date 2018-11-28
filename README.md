@@ -1,7 +1,7 @@
 # SchlaubiBot
 Small Discord bot with some usefull tools<br>
 
-**Speacial thanks:** [@zekro](https://github.com/zekroTJA) and [@max95812](https://github.com/max95812)
+**Speacial thanks to [@zekro](https://github.com/zekroTJA) for learning me how to code wrong**
 
 ### Get it!
 
